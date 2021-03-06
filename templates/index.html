@@ -1,0 +1,61 @@
+{% extends "form.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+{% block content %}
+<h2 class="text-center text-info">Создание запроса</h2>
+
+<div class="container bg-light content-container">
+    <div class="row">
+        <div class="col-md"></div>
+        <div class="col-md-8">
+            <div class="content">
+                <form action="">
+                    <div class="form-group">
+                        <label for="tag">Ключевая фраза для поиска</label>
+                        <input type="text" class="form-control" id='tag'>
+                    </div>
+                    <div class="form-group">
+                        <label for="min-price">Минимальная цена</label>
+                        <input type="text" class="form-control" id='min-price'>
+                    </div>
+                    <div class="form-group">
+                        <label for="max-price">Максимальная цена</label>
+                        <input type="text" class="form-control" id="max-price">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-from">Дата с</label>
+                        <input type="text" class="form-control" id="date-from">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-to">Дата до</label>
+                        <input type="text" class="form-control" id="date-to">
+                    </div>
+                    <div class="form-group">
+                        <label for="search-filter">Сортировать по</label>
+                        <select name="search_filter" id="search-filter" class="form-control">
+                            <option value="place_date">Дате размещения</option>
+                            <option value="price-min">Минимальной цене</option>
+                            <option value="price-max">Максимальной цене</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="sort-direction" type="radio" value="from-old" id="from-new">
+                        <label class="form-check-label" for="from-new">
+                          Сначала новые
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" name="sort-direction" type="radio" value="from-old" id="from-old">
+                        <label class="form-check-label" for="from-old">
+                          Сначала старые
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Создать запрос</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md"></div>
+    </div>
+</div>
+{% endblock %}
