@@ -1,7 +1,6 @@
 from flask import Flask, url_for, render_template, request, session, abort, redirect
 from io import BytesIO
 import datetime
-from parser_zak import Parser
 
 app = Flask(__name__)
 

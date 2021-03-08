@@ -161,11 +161,16 @@ class Parser:
         term_document_data.raise_for_status()
         term_document_links = document_fromstring(term_document_data.text).xpath(
             '//span[@class="section__value"]/a[@title]/@href')
+        
+        # парсинг победителя
+        winner = self._parse_tender_winner(link)
+        if not winner:
+            winner = ['', '', '']
 
         return {
             'tender_id': tender_id, 'tender_object': tender_object, 'customer': customer,
-            'tender_price': tender_price, 'tender_adress': tender_adress, 'tender_delivery': tender_delivery_adress,
-            'tender_term': tender_term, 'tender_object_info': tender_object_info, 'document_links': term_document_links,
+            'tender_price': tender_price, tender_date: 'tender_date', 'tender_adress': tender_adress, 'tender_delivery': tender_delivery_adress,
+            'tender_term': tender_term, 'tender_object_info': tender_object_info, 'tender_winner': winner, 'document_links': term_document_links,
             'type': 'fz44', 'link': link
         }
 
@@ -186,10 +191,18 @@ class Parser:
         data = [list(map(self._normalizer, row.xpath('./t/td/text()')))
                 for row in table.xpath('./tbody/tr[@class="tableBlock__body"]')]
 
-        # создание json документа
-        json_data = json.dumps(data, ensure_ascii=False)
+        return data
+    
+    def _parse_tender_winner(self, tender_link):
+        winner_link = tender_link.replace('common-info', 'supplier-results')
+        data = requests.get(winner_link)
+        data.raise_for_status()
 
-        return json_data
+        doc = document_fromstring(data.text)
+        table = doc.xpath('//div[contains(@id, "participant")]/table')
+        winner = list(map(self._normalizer, table.xpath('./tbody/tr[1]/td/text()')))
+        return winner
+
 
     def _get_cotract_conditions_container(self, containers):
         for element in containers:
@@ -200,9 +213,4 @@ class Parser:
         return False
 
     def _normalizer(self, text: str) -> str:
-        return text.replace('\n', '').replace('\xa0', '').rstrip().lstrip()
-
-
-parser = Parser('техно', logging.getLogger(), {'pc': 'on'}, mp.Pipe()[1])
-data = parser.parse_ea44('https://zakupki.gov.ru/epz/order/notice/ea44/view/common-info.html?regNumber=0188300007521000001')
-print(json.dumps(data, ensure_ascii=False), file=open('test.json', 'w'))
+        return text.replace('\n', '').replace('\xa0', '').strip()
