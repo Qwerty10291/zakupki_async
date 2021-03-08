@@ -10,26 +10,26 @@
         <div class="col-md"></div>
         <div class="col-md-8">
             <div class="content">
-                <form action="">
+                <form action="/start" method="POST">
                     <div class="form-group">
                         <label for="tag">Ключевая фраза для поиска</label>
-                        <input type="text" class="form-control" id='tag'>
+                        <input type="text" class="form-control" placeholder="например: лекарства" name="tag" id='tag'>
                     </div>
                     <div class="form-group">
                         <label for="min-price">Минимальная цена</label>
-                        <input type="text" class="form-control" id='min-price'>
+                        <input type="text" class="form-control" name="min-price" id='min-price'>
                     </div>
                     <div class="form-group">
                         <label for="max-price">Максимальная цена</label>
-                        <input type="text" class="form-control" id="max-price">
+                        <input type="text" class="form-control" name="max-price" id="max-price">
                     </div>
                     <div class="form-group">
                         <label for="date-from">Дата с</label>
-                        <input type="text" class="form-control" id="date-from">
+                        <input type="text" class="form-control" name="date-from" id="date-from">
                     </div>
                     <div class="form-group">
                         <label for="date-to">Дата до</label>
-                        <input type="text" class="form-control" id="date-to">
+                        <input type="text" class="form-control" name="date-to" placeholder="{{ date }}" id="date-to">
                     </div>
                     <div class="form-group">
                         <label for="search-filter">Сортировать по</label>
@@ -40,7 +40,7 @@
                         </select>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" name="sort-direction" type="radio" value="from-old" id="from-new">
+                        <input class="form-check-input" name="sort-direction" checked type="radio" value="from-old" id="from-new">
                         <label class="form-check-label" for="from-new">
                           Сначала новые
                         </label>
