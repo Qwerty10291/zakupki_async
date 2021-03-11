@@ -5,7 +5,11 @@ import re
 import multiprocessing as mp
 import time
 import json
+from data import db_session
+from data.models import Data, Winners
+from datetime import datetime
 
+db_session.global_init('db/db.sqlite')
 
 class Parser:
     def __init__(self, search_string, logger, tags: dict, pipe, processes=2, timeout=0.1):
@@ -14,6 +18,9 @@ class Parser:
 
         # устанавливаем канал связи с главным процессом
         self.pipe = pipe
+
+        # создаем сессию базы данных
+        self.db = db_session.create_session()
 
         # задаем константы
         self.search_string = search_string
@@ -32,9 +39,7 @@ class Parser:
         self.tags['searchString'] = search_string
         self.tags['pageNumber'] = '1'
         self.tags['morphology'] = 'on'
-        self.tags['sortDirection'] = 'false'
-        self.tags['recordsPerPage'] = '_500'
-        self.tags['sortBy'] = 'UPDATE_DATE'
+        self.tags['recordsPerPage'] = '_10'
         self.tags['fz44'] = 'on'
 
     def init_parser(self):
@@ -61,21 +66,66 @@ class Parser:
         # получаем количество страниц
         page_num = int(document_fromstring(data.text).xpath(
             '//ul[@class="pages"]/li[last()]/a/span/text()')[0])
-        for i in range(1, page_num + 1):
+        for i in range(1, 3):
             self.logger.info(f'получениие ссылок: {i}')
             page_data = self.session.get(self.parse_link, params=tags)
             page_data.raise_for_status()
-            links += list(map(lambda x: self.main_link + x, document_fromstring(
-                page_data.text).xpath('//div[@class="registry-entry__header-mid__number"]/a/@href')))
+            links += list(map(lambda x: [self.main_link + x.xpath('./@href')[0], self._tender_id_handler(x.xpath('./text()')[0])],
+                              document_fromstring(page_data.text).xpath('//div[@class="registry-entry__header-mid__number"]/a')))
             tags['pageNumber'] = str(i)
-            self.logger.info(f"загрузка ссылок. Страница {tags}")
+            self.pipe.send(f'Страница: {i}')
         return links
 
     def parse_all(self, links):
         for link in links:
-            self.pipe.send(self.parse_ea44(link))
+            if not self.db_checker(link[1]):
+                self.db_handler(link[1], self.parse_ea44(link[0]))
+                # self.pipe.send(f'Добавление записи')
+                print(f'добавление записи {id}')
+            else:
+                print('Запись уже существует')
+                print(self.db_getter(link[1]))
+                # self.pipe.send(f'Запись уже существует')
             time.sleep(self.timeout)
         self.pipe.send('end')
+    
+    def db_checker(self, tender_id):
+        return self.db.query(Data).filter(Data.id == tender_id).count()
+    
+    def db_handler(self, id, data):
+        db_data = Data()
+        db_data.id = id
+        db_data.tender_price = self._tender_price_handler(data['tender_price'])
+        db_data.type = data['type']
+        db_data.tender_date = self._tender_date_handler(data['tender_date'])
+        db_data.tender_object = data['tender_object']
+        db_data.customer = data['customer']
+        db_data.tender_adress = data['tender_adress']
+        db_data.tender_delivery = data['tender_delivery']
+        db_data.tender_terms = data['tender_term']
+        db_data.tender_object_info = json.dumps(data['tender_object_info'], ensure_ascii=False)
+        db_data.document_links = '\n'.join(data['document_links'])
+        db_data.tender_link = data['link']
+
+        winner = Winners()
+        winner.data_id = id
+        winner.name = data['tender_winner'][0]
+        winner.position = data['tender_winner'][1]
+        winner.price = data['tender_winner'][2]
+
+        db_data.winner.append(winner)
+        self.db.add(db_data)
+        self.db.commit()
+
+    def db_getter(self, id) -> dict:
+        data = self.db.query(Data).filter(Data.id == id).first()
+        return {
+            "tender_id": id, "tender_object": data.tender_object, "tender_price": data.tender_price,
+            "tender_date": data.tender_date, "customer": data.customer, "tender_adress": data.tender_adress,
+            'tender_delivery': data.tender_delivery, "tender_term": data.tender_terms,
+            "tender_object_info": data.tender_object_info, "winner": [data.winner[0].name, data.winner[0].position, data.winner[0].price],
+            "document_links": data.document_links, "type": data.type, "link": data.tender_link
+        }
 
     def parse_ea44(self, link):
         inform_request = self.session.get(link)
@@ -133,7 +183,7 @@ class Parser:
         # условия контракта
         condition_container = self._get_cotract_conditions_container(
             order_document.xpath('//div[@id="custReqNoticeTable"]/div'))
-        if condition_container:
+        if condition_container is not None:
             tender_delivery_adress = condition_container.xpath(
                 './/div[@class="col"]/section[2]/span[2]')
             if not tender_delivery_adress:
@@ -155,6 +205,11 @@ class Parser:
         # парсинг информации о обьекте закупки
         tender_object_info = self._parse_tender_object_info(order_document)
 
+        # парсинг победителя
+        winner = self._parse_tender_winner(link)
+        if len(winner) < 3:
+            winner = ['', '', '']
+
         # парсинг ссылок документов
         term_document_link = link.replace('common-info', 'documents')
         term_document_data = self.session.get(term_document_link)
@@ -164,17 +219,18 @@ class Parser:
 
         return {
             'tender_id': tender_id, 'tender_object': tender_object, 'customer': customer,
-            'tender_price': tender_price, 'tender_adress': tender_adress, 'tender_delivery': tender_delivery_adress,
-            'tender_term': tender_term, 'tender_object_info': tender_object_info, 'document_links': term_document_links,
-            'type': 'fz44', 'link': link
+            'tender_price': tender_price, 'tender_date': tender_date, 'tender_adress': tender_adress,
+            'tender_delivery': tender_delivery_adress, 'tender_term': tender_term,
+            'tender_object_info': tender_object_info, 'document_links': term_document_links,
+            'tender_winner': winner, 'type': 'fz44', 'link': link
         }
 
     def _parse_tender_object_info(self, document):
         # получаем контейнер таблицы
         table = document.xpath(
-            '//div[@id]/table[@class="blockInfo__table tableBlock"]')
+            '//div[@id="positionKTRU"]//table')
         if not table:
-            return json.dumps([])
+            return []
         else:
             table = table[0]
 
@@ -183,26 +239,46 @@ class Parser:
         headers = list(map(self._normalizer, headers_raw))
 
         # данные таблицы
-        data = [list(map(self._normalizer, row.xpath('./t/td/text()')))
-                for row in table.xpath('./tbody/tr[@class="tableBlock__body"]')]
+        data_raw = [row.xpath('./td[contains(@class, "tableBlock__col")]/text()')
+                    for row in table.xpath('./tbody/tr')]
+        data = [list(map(self._normalizer, i)) for i in data_raw]
 
-        # создание json документа
-        json_data = json.dumps(data, ensure_ascii=False)
-
-        return json_data
+        return [headers] + data
 
     def _get_cotract_conditions_container(self, containers):
         for element in containers:
             name = element.xpath('.//h2')[0].text_content()
-            print(self._normalizer(name))
             if 'Условия' in self._normalizer(name):
                 return element
-        return False
+        return None
+
+    def _parse_tender_winner(self, tender_link):
+        winner_link = tender_link.replace('common-info', 'supplier-results')
+        data = self.session.get(winner_link)
+        data.raise_for_status()
+
+        doc = document_fromstring(data.text)
+        table = doc.xpath('//div[contains(@id, "participant")]/table')
+        if table:
+            winner = table[0].xpath('./tbody/tr[1]/td/text()')
+        else:
+            return ['', '', '']
+        return list(map(self._normalizer, winner))
 
     def _normalizer(self, text: str) -> str:
-        return text.replace('\n', '').replace('\xa0', '').rstrip().lstrip()
+        return text.replace('\n', '').replace('\xa0', '').strip()
+
+    def _tender_id_handler(self, tender_id: str) -> int:
+        return int(re.findall(r'\d+', tender_id)[0])
+    
+    def _tender_price_handler(self, tender_price: str) -> float:
+        tender_price = tender_price.replace(' ', '').replace(',', '.')
+        return float(re.findall(r'[\d\,]+', tender_price)[0])
+    
+    def _tender_date_handler(self, tender_date: str):
+        return datetime.strptime(tender_date, '%d.%m.%Y')
 
 
-parser = Parser('техно', logging.getLogger(), {'pc': 'on'}, mp.Pipe()[1])
-data = parser.parse_ea44('https://zakupki.gov.ru/epz/order/notice/ea44/view/common-info.html?regNumber=0188300007521000001')
-print(json.dumps(data, ensure_ascii=False), file=open('test.json', 'w'))
+pipe = mp.Pipe()
+parser = Parser('техно', logging.getLogger(), {'pc': 'on'}, pipe[1])
+parser.async_parser()
