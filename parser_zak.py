@@ -9,7 +9,6 @@ from data import db_session
 from data.models import Data, Winners
 from datetime import datetime
 
-db_session.global_init('db/db.sqlite')
 
 class Parser:
     def __init__(self, search_string, logger, tags: dict, pipe, processes=2, timeout=0.1):
