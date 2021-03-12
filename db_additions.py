@@ -8,7 +8,7 @@ def get_user(id):
 
 def get_auth_data(login):
     session = db_session.create_session()
-    user = session.query(Auth).filter(Auth.login)
+    user = session.query(Auth).filter(Auth.login == login)
     if user:
         return user[0]
     else:

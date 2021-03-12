@@ -38,7 +38,7 @@ class Parser:
         self.tags['searchString'] = search_string
         self.tags['pageNumber'] = '1'
         self.tags['morphology'] = 'on'
-        self.tags['recordsPerPage'] = '_10'
+        self.tags['recordsPerPage'] = '_50'
         self.tags['fz44'] = 'on'
 
     def init_parser(self):
