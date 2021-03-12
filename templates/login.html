@@ -34,6 +34,9 @@
     </div>
     {{ form.submit(type="submit", class="btn btn-primary") }}
     <a href="/register">Ещё нет аккаунта? Подайте заявку на регистрацию.</a>
+    {% if errors %}
+    <div class="alert alert-danger">{{ errors }}</div>
+    {% endif %}
   </form>
 
 </body>

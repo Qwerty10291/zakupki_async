@@ -20,8 +20,9 @@ form a{
     margin-top: 25px;
     font-size: 1em;
 }
-form button{
-    width: calc(fit-content + 20px);
+input.btn{
+    width:25%;
+    align-self: center;
 }
 .form-group input{
     width: 80%;

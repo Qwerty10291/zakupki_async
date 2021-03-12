@@ -1,3 +1,5 @@
+from logging import error
+import re
 from flask import Flask, url_for, render_template, request, session, abort, redirect, jsonify
 from io import BytesIO
 import datetime
@@ -26,8 +28,15 @@ def login():
     form = LoginForm()
     
     if form.validate_on_submit():
-        print(request.form)
-        return redirect('/login')
+        user = db_additions.get_auth_data(request.form.get('login'))
+        if not user:
+            return render_template('login.html', title='Вход', form=form, errors='Неправильный логин или пароль')
+        
+        if not check_password_hash(user.password, request.form.get('password')):
+            return render_template('login.html', title='Вход', form=form, errors='Неправильный логин или пароль')
+        session['user'] = user.id
+        session['role'] = user.user.id
+        return redirect('/')
     return render_template('login.html', title='Вход', form=form)
 
 @app.route('/register', methods=["GET", "POST"])
@@ -39,6 +48,9 @@ def register():
     if form.validate_on_submit():
         name = request.form.get('username')
         login = request.form.get('login')
+
+        if db_additions.check_login(login):
+            return render_template('register.html', title='Регистрация', form=form, errors="Данный логин занят.")
         hashed_password = generate_password_hash(request.form.get('password'))
 
         if not utils.check_email(request.form['email']):

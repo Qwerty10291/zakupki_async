@@ -2,11 +2,11 @@ from sqlalchemy.orm import session
 from data import db_session
 from data.models import User, Auth
 
-def get_user(id):
+def get_user(id) -> User:
     session = db_session.create_session()
     return session.query(User).get(id)
 
-def get_auth_data(login):
+def get_auth_data(login:str) -> Auth:
     session = db_session.create_session()
     user = session.query(Auth).filter(Auth.login == login)
     if user:
@@ -14,7 +14,12 @@ def get_auth_data(login):
     else:
         return None
 
-def register_user(login, password, mail, name):
+
+def check_login(login:str) -> bool:
+    session = db_session.create_session()
+    return bool(session.query(Auth).filter(Auth.login == login).count())
+
+def register_user(login, password, mail, name) -> User:
     session = db_session.create_session()
     user = User()
     auth = Auth()
@@ -33,7 +38,7 @@ def delete_user(id):
     session.delete(user)
     session.commit()
 
-def get_user_history(id):
+def get_user_history(id) -> list:
     session = db_session.create_session()
     user = session.query(User).get(id)
     return user.history
