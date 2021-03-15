@@ -1,6 +1,5 @@
 import requests
 from lxml.html import document_fromstring
-import logging
 import re
 import multiprocessing as mp
 import time
@@ -11,18 +10,14 @@ from datetime import datetime
 
 
 class Parser:
-    def __init__(self, search_string, logger, tags: dict, pipe, processes=2, timeout=0.1):
-        # получаем логгер
-        self.logger = logger
+    def __init__(self, tags: dict, processes=2, timeout=0.1):
 
         # устанавливаем канал связи с главным процессом
-        self.pipe = pipe
+        self.pipe = mp.Pipe()
 
-        # создаем сессию базы данных
-        self.db = db_session.create_session()
+
 
         # задаем константы
-        self.search_string = search_string
         self.processes = processes
         self.parse_link = 'https://zakupki.gov.ru/epz/order/extendedsearch/results.html'
         self.main_link = 'https://zakupki.gov.ru'
@@ -31,11 +26,9 @@ class Parser:
         self.session = requests.Session()
         self.session.headers = {
             'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:81.0) Gecko/20100101 Firefox/81.0', }
-        self.init_parser()
 
         # создаем теги для запроса
         self.tags = tags
-        self.tags['searchString'] = search_string
         self.tags['pageNumber'] = '1'
         self.tags['morphology'] = 'on'
         self.tags['recordsPerPage'] = '_50'
@@ -43,7 +36,7 @@ class Parser:
 
     def init_parser(self):
         self.session.get('https://zakupki.gov.ru/')
-        self.logger.info('Парсер инициализирован')
+        self.pipe[1].send('парсер инициализирован')
 
     def start_async(self):
         process = mp.Process(target=self.async_parser)
@@ -52,6 +45,9 @@ class Parser:
         return process
 
     def async_parser(self):
+        db_session.global_init('db/db.sqlite')
+        self.db = db_session.create_session()
+        self.init_parser()
         links = self.get_links_to_parse()
         self.parse_all(links)
 
@@ -66,25 +62,22 @@ class Parser:
         page_num = int(document_fromstring(data.text).xpath(
             '//ul[@class="pages"]/li[last()]/a/span/text()')[0])
         for i in range(1, 3):
-            self.logger.info(f'получениие ссылок: {i}')
             page_data = self.session.get(self.parse_link, params=tags)
             page_data.raise_for_status()
             links += list(map(lambda x: [self.main_link + x.xpath('./@href')[0], self._tender_id_handler(x.xpath('./text()')[0])],
                               document_fromstring(page_data.text).xpath('//div[@class="registry-entry__header-mid__number"]/a')))
             tags['pageNumber'] = str(i)
-            self.pipe.send(f'Страница: {i}')
+            self.pipe[1].send(f'Страница: {i}')
         return links
 
     def parse_all(self, links):
         for link in links:
             if not self.db_checker(link[1]):
-                self.db_handler(link[1], self.parse_ea44(link[0]))
-                # self.pipe.send(f'Добавление записи')
-                print(f'добавление записи {id}')
+                data = self.parse_ea44(link[0])
+                self.db_handler(link[1], data)
+                self.pipe[1].send(data)
             else:
-                print('Запись уже существует')
-                print(self.db_getter(link[1]))
-                # self.pipe.send(f'Запись уже существует')
+                self.pipe[1].send(self.db_getter(link[1]))
             time.sleep(self.timeout)
         self.pipe.send('end')
     
@@ -276,8 +269,3 @@ class Parser:
     
     def _tender_date_handler(self, tender_date: str):
         return datetime.strptime(tender_date, '%d.%m.%Y')
-
-
-pipe = mp.Pipe()
-parser = Parser('техно', logging.getLogger(), {'pc': 'on'}, pipe[1])
-parser.async_parser()

@@ -10,7 +10,7 @@
         <div class="col-md"></div>
         <div class="col-md-8">
             <div class="content">
-                <form action="/start" method="POST">
+                <form action="/create_request" method="POST">
                     <div class="form-group">
                         <label for="tag">Ключевая фраза для поиска</label>
                         <input type="text" class="form-control" placeholder="например: лекарства" name="tag" id='tag'>
@@ -26,6 +26,7 @@
                     <div class="form-group">
                         <label for="date-from">Дата с</label>
                         <input type="text" class="form-control" name="date-from" id="date-from">
+                        <small>Разница в дате для одного запроса может быть не более года</small>
                     </div>
                     <div class="form-group">
                         <label for="date-to">Дата до</label>
@@ -33,14 +34,14 @@
                     </div>
                     <div class="form-group">
                         <label for="search-filter">Сортировать по</label>
-                        <select name="search_filter" id="search-filter" class="form-control">
+                        <select name="search-filter" id="search-filter" class="form-control">
                             <option value="place_date">Дате размещения</option>
-                            <option value="price-min">Минимальной цене</option>
-                            <option value="price-max">Максимальной цене</option>
+                            <option value="update_date">Дате обновления</option>
+                            <option value="price">цене</option>
                         </select>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" name="sort-direction" checked type="radio" value="from-old" id="from-new">
+                        <input class="form-check-input" name="sort-direction" checked type="radio" value="from-new" id="from-new">
                         <label class="form-check-label" for="from-new">
                           Сначала новые
                         </label>
@@ -52,6 +53,9 @@
                         </label>
                     </div>
                     <button type="submit" class="btn btn-primary" style="margin-top: 25px;">Создать запрос</button>
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
                 </form>
             </div>
         </div>
