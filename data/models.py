@@ -2,9 +2,9 @@ import datetime
 import sqlalchemy
 from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
+from flask_login import UserMixin
 
-
-class User(SqlAlchemyBase):
+class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'user'
 
     id = sqlalchemy.Column(
@@ -78,7 +78,6 @@ class Data(SqlAlchemyBase):
     tender_adress = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     tender_delivery = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     tender_terms = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    tender_object_info = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
     document_links = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
     tender_link = sqlalchemy.Column(sqlalchemy.String)
     winner = orm.relation('Winners', back_populates='data')

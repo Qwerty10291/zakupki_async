@@ -1,6 +1,5 @@
 import re
 from flask import session, redirect
-from db_additions import check_user
 import string
 import random
 
@@ -14,17 +13,3 @@ def check_email(mail: str) -> bool:
 
 def geherate_key() -> str:
     return ''.join(random.choice(string.ascii_letters) for _ in range(16))
-
-
-def login_decorator(func):
-
-    def wrapper():
-        if 'user' not in session:
-            return redirect('/login')
-        if not check_user(int(session['user'])):
-            return redirect('/login')
-        func()
-
-    wrapper.__name__ = func.__name__
-
-    return wrapper

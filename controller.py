@@ -1,84 +1,105 @@
-from flask.globals import session
 from parser_zak import Parser
-from data.models import Data
-from data.db_session import create_session
-from data.models import History, User
+from data.db_session import create_session, global_init
+from data.models import History, User, Data
 from datetime import datetime
-from io import BytesIO
-import csv
+import multiprocessing as mp
+import time
+
 
 class ParserController:
     def __init__(self, parser_limit=3) -> None:
         self.parsers = []
         self.queue = []
         self.parser_limit = parser_limit
-        self.state = False
+        self.mp_queue = mp.Queue()
     
     def add_parser(self, user_id, parameters:dict):
-        session = create_session()
         parser = Parser(parameters)
-        if len(self.parsers) > self.parser_limit:
-            history = self._create_history('в очереди', user_id, parameters)
-            self.queue.append([parser, history])
-            session.add(history)
-            session.commit()
-        else:
-            history = self._create_history('в процессе', user_id, parameters)
-            session.add(history)
-            session.commit()
-            self.parsers.append([parser, history,])
-            parser.start_async()
-        if not self.state:
-            self.loop()
+        history = self._create_history(user_id, parameters)
+        self.mp_queue.put_nowait([parser, history])
+
     
-    def loop(self):
-        session = create_session()
-        self.state = True
+    def start_loop(self):
+        self.loop_process = mp.Process(target=self.loop, args=(self.mp_queue, ))
+        self.loop_process.start()
+
+
+    def loop(self, queue:mp.Queue):
+        global_init('db/db.sqlite')
+        self.session = create_session()
         while True:
-            for i in range(len(self.parsers)):
-                if i >= len(self.parsers):
-                    break
-                
-                data = self.parsers[i][0].pipe[0].recv()
-                if data is dict:
-                    print(data['tender_object'])
-                elif data is str:
-                    if data == 'end':
-                        self.parsers[i][1].state = 'завершён'
-                    session.commit()
-                    del self.parsers[i]
-                else:
-                    print(data)
-            if len(self.parsers) == 0:
-                self.state = False
-                break
+            if queue.qsize():
+                element = queue.get()
+                self.process_handler(element)
+                queue.put(self.parsers)
+            
+            if len(self.parsers) > 0:
+                for i in range(len(self.parsers)):
+                    if i >= len(self.parsers):
+                        break
+                    
+                    data = self.parsers[i][0].pipe[0].recv()
+                    if data is Data:
+                        text = self.data_handler(data) + '\n'
+                        self.parsers[i][1].document += self.data_handler(data) + '\n'
+
+                    elif data is str:
+                        self.session.commit()
+                        del self.parsers[i]
+                    else:
+                        print(data.__repr__())
+                time.sleep(0.1)
+            else:
+                time.sleep(3)
 
 
-    def update_queue(self):
-        session = create_session()
-        if len(self.queue) > 0:
-            parser = self.queue.pop(0)
-            parser[1].state = 'в процессе'
-            parser[0].start_async()
-            self.parsers.append(parser)
-            session.commit()
-        else:
-            return True
-        
+    def data_handler(self, data: Data):
+        row = ''
+        row += ';'.join([str(data.id), data.type, str(data.tender_price), data.tender_date.strftime('%d.%m.%Y'),
+                         data.tender_object, data.customer, data.tender_adress, data.tender_delivery, data.tender_terms])
+        row += f'"{data.document_links}";'
+        row += data.tender_link + ';'
+
+        winner = data.winner[0]
+        row += ';'.join([winner.name, winner.position, winner.price])
+        return row
     
-    def _create_history(self, state, user_id, parameters:dict):
+    def process_handler(self, element:list):
+        if len(self.parsers) >= self.parser_limit:
+            element[1].state = 'в очереди'
+            self.session.add(element[1])
+            self.session.commit()
+            self.queue.append(element)
+        else:
+            element[1].state = 'в процессе'
+            element[0].start_async()
+            self.session.commit()
+            self.parsers.append(element)
+    
+    def move_queue(self):
+        if len(self.queue) > 0:
+            element = self.queue.pop(0)
+            element[1].state = 'в процессе'
+            self.session.commit()
+            self.parsers.append(element)
+    
+
+    def _create_history(self, user_id:int, parameters: dict):
         history = History()
         history.user_id = user_id
-        history.state = state
         history.tag = parameters.get('searchString')
+        history.state = ''
+        history.document = ''
         if 'priceFromGeneral' in parameters:
             history.min_price = int(parameters['priceFromGeneral'])
         if 'priceToGeneral' in parameters:
             history.max_price = int(parameters['priceToGeneral'])
         if 'publishDateFrom' in parameters:
-            history.date_from = datetime.strptime(parameters['publishDateFrom'], '%d.%m.%Y')
+            history.date_from = datetime.strptime(
+                parameters['publishDateFrom'], '%d.%m.%Y')
         if 'publishDateTo' in parameters:
-            history.date_to = datetime.strptime(parameters['publishDateTo'], '%d.%m.%Y')
+            history.date_to = datetime.strptime(
+                parameters['publishDateTo'], '%d.%m.%Y')
         history.sort_filter = parameters['search-filter']
         if parameters['sortDirection'] == 'false':
             history.sort_direction = False

@@ -4,16 +4,17 @@ from flask.templating import render_template
 from controller import ParserController
 import db_additions
 from datetime import datetime, timedelta
-from utils import sort_parameters, login_decorator
+from utils import sort_parameters
+from flask_login import login_required, current_user
 
 blueprint = Blueprint('create_and_show_requests',
                       __name__, template_folder='templates')
 controller = ParserController()
 
 @blueprint.route('/create_request', methods=['POST'])
-@login_decorator
+@login_required
 def create_request():
-    user = db_additions.get_user(int(session['user']))
+    user = current_user
     parameters = {}
     if request.form.get('tag'):
         parameters['searchString'] = request.form['tag']
@@ -96,5 +97,5 @@ def create_request():
         parameters['sortDirection'] = 'true'
     else:
         return abort(404)
-    controller.add_parser(int(session['user']), parameters)
+    controller.add_parser(user.id, parameters)
     return redirect('/')

@@ -1,4 +1,3 @@
-from sqlalchemy.orm import session
 from data import db_session
 from data.models import User, Auth
 from utils import geherate_key

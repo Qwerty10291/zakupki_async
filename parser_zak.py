@@ -5,7 +5,7 @@ import multiprocessing as mp
 import time
 import json
 from data import db_session
-from data.models import Data, Winners
+from data.models import Data, Winners, Objects
 from datetime import datetime
 
 
@@ -33,6 +33,7 @@ class Parser:
         self.tags['morphology'] = 'on'
         self.tags['recordsPerPage'] = '_50'
         self.tags['fz44'] = 'on'
+        self.tags['pc'] = 'on'
 
     def init_parser(self):
         self.session.get('https://zakupki.gov.ru/')
@@ -73,13 +74,17 @@ class Parser:
     def parse_all(self, links):
         for link in links:
             if not self.db_checker(link[1]):
-                data = self.parse_ea44(link[0])
-                self.db_handler(link[1], data)
-                self.pipe[1].send(data)
+                try:
+                    info = self.parse_ea44(link[0])
+                    data = self.db_handler(link[1], info)
+                    self.pipe[1].send(data)
+                except Exception as msg:
+                    self.pipe[1].send(msg.__class__.__name__)
+                    time.sleep(10)
             else:
                 self.pipe[1].send(self.db_getter(link[1]))
             time.sleep(self.timeout)
-        self.pipe.send('end')
+        self.pipe[1].send('end')
     
     def db_checker(self, tender_id):
         return self.db.query(Data).filter(Data.id == tender_id).count()
@@ -95,7 +100,6 @@ class Parser:
         db_data.tender_adress = data['tender_adress']
         db_data.tender_delivery = data['tender_delivery']
         db_data.tender_terms = data['tender_term']
-        db_data.tender_object_info = json.dumps(data['tender_object_info'], ensure_ascii=False)
         db_data.document_links = '\n'.join(data['document_links'])
         db_data.tender_link = data['link']
 
@@ -104,20 +108,26 @@ class Parser:
         winner.name = data['tender_winner'][0]
         winner.position = data['tender_winner'][1]
         winner.price = data['tender_winner'][2]
-
         db_data.winner.append(winner)
+
+        for i in data['tender_object_info'][1:]:
+            if len(i) == 6:
+                data = Objects()
+                data.position = i[0]
+                data.name = i[1]
+                data.unit = i[2]
+                data.quantity = i[3]
+                data.unit_price = i[4]
+                data.price = i[5]
+                db_data.objects.append(data)
+        
         self.db.add(db_data)
         self.db.commit()
+        return db_data
 
-    def db_getter(self, id) -> dict:
-        data = self.db.query(Data).filter(Data.id == id).first()
-        return {
-            "tender_id": id, "tender_object": data.tender_object, "tender_price": data.tender_price,
-            "tender_date": data.tender_date, "customer": data.customer, "tender_adress": data.tender_adress,
-            'tender_delivery': data.tender_delivery, "tender_term": data.tender_terms,
-            "tender_object_info": data.tender_object_info, "winner": [data.winner[0].name, data.winner[0].position, data.winner[0].price],
-            "document_links": data.document_links, "type": data.type, "link": data.tender_link
-        }
+    def db_getter(self, id) -> Data:
+        data = self.db.query(Data).get(id)
+        return data
 
     def parse_ea44(self, link):
         inform_request = self.session.get(link)
@@ -164,7 +174,7 @@ class Parser:
         # общая информация о закупке - адресс электронной площадки и обьект закупки
         general_information_container = order_document.xpath(
             '//div[@class="wrapper"]/div[2]')
-
+        
         tender_adress = general_information_container[0].xpath(
             './/div[@class="col"]/section[3]/span[2]')
         if not tender_adress:
