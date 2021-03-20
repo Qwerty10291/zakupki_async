@@ -24,8 +24,8 @@ def get_history(id):
 
 def get_auth_data(login: str) -> Auth:
     session = db_session.create_session()
-    user = session.query(Auth).filter(Auth.login == login)
-    if user:
+    user = session.query(Auth).filter(Auth.login == login).all()
+    if len(user) > 0:
         return user[0]
     else:
         return None

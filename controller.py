@@ -50,6 +50,7 @@ class ParserController:
                             print(data)
                     elif data.__class__ == Data:
                         self.parsers[i][1].document += self.data_handler(data) + '\n'
+                        print(data.id)
                     else:
                         print(data)
                         
