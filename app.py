@@ -59,10 +59,9 @@ def register():
         if db_additions.check_mail(email):
             return render_template('register.html', title='Регистрация', form=form, errors='Данная почта уже используется.')
         user = db_additions.register_user(login, hashed_password, email, name)
-        session['user'] = user.id
-        session['role'] = user.role
         return redirect('/')
     return render_template('register.html', title='Регистрация', form=form)
+    
 
 
 @app.route('/logout')

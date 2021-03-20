@@ -1,11 +1,11 @@
-from logging import error
-from flask import Blueprint, request, redirect, abort, session
+from flask import Blueprint, request, redirect, abort, session, send_file
 from flask.templating import render_template
 from controller import ParserController
 import db_additions
 from datetime import datetime, timedelta
 from utils import sort_parameters
 from flask_login import login_required, current_user
+from io import BytesIO
 
 blueprint = Blueprint('create_and_show_requests',
                       __name__, template_folder='templates')
@@ -99,3 +99,27 @@ def create_request():
         return abort(404)
     controller.add_parser(user.id, parameters)
     return redirect('/')
+
+@blueprint.route('/history')
+@login_required
+def history():
+    return render_template('history.html', str=str)
+
+@blueprint.route('/download/csv')
+@login_required
+def download_csv():
+    history_id = request.args.get('id', None)
+    try:
+        history_id = int(history_id)
+    except ValueError:
+        return abort(500)
+    
+    history = db_additions.get_history(history_id)
+    if not history:
+        return 'ошибка: записи с таким id не существует'
+    
+    if not history.document:
+        return 'документ еще не загружен'
+    
+    file = BytesIO(bytes(history.document, encoding='utf-8'),)
+    return send_file(file, as_attachment=True, mimetype='application/octet-stream', attachment_filename=f'закупки_{history_id}.csv')

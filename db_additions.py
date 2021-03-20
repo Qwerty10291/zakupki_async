@@ -1,5 +1,6 @@
+from flask.globals import session
 from data import db_session
-from data.models import User, Auth
+from data.models import User, Auth, History
 from utils import geherate_key
 
 
@@ -11,6 +12,14 @@ def get_user(id) -> User:
 def check_user(id) -> bool:
     session = db_session.create_session()
     return bool(session.query(User).filter(User.id == id).count())
+
+def get_history(id):
+    session = db_session.create_session()
+    history = session.query(History).filter(History.id == id)
+    if history:
+        return history[0]
+    else:
+        return None
 
 
 def get_auth_data(login: str) -> Auth:

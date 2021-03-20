@@ -39,16 +39,21 @@ class ParserController:
                         break
                     
                     data = self.parsers[i][0].pipe[0].recv()
-                    if data is Data:
-                        text = self.data_handler(data) + '\n'
+                    if data.__class__ == str:
+                        if data == 'end':
+                            print('end')
+                            self.parsers[i][1].state = 'завершён'
+                            self.session.commit()
+                            del self.parsers[i]
+                            self.move_queue()
+                        else:
+                            print(data)
+                    elif data.__class__ == Data:
                         self.parsers[i][1].document += self.data_handler(data) + '\n'
-
-                    elif data is str:
-                        self.session.commit()
-                        del self.parsers[i]
                     else:
-                        print(data.__repr__())
-                time.sleep(0.1)
+                        print(data)
+                        
+
             else:
                 time.sleep(3)
 
@@ -67,12 +72,15 @@ class ParserController:
     def process_handler(self, element:list):
         if len(self.parsers) >= self.parser_limit:
             element[1].state = 'в очереди'
+            print('в очереди')
             self.session.add(element[1])
             self.session.commit()
             self.queue.append(element)
         else:
             element[1].state = 'в процессе'
+            print('работает')
             element[0].start_async()
+            self.session.add(element[1])
             self.session.commit()
             self.parsers.append(element)
     

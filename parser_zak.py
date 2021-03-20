@@ -62,7 +62,7 @@ class Parser:
         # получаем количество страниц
         page_num = int(document_fromstring(data.text).xpath(
             '//ul[@class="pages"]/li[last()]/a/span/text()')[0])
-        for i in range(1, 3):
+        for i in range(1, 2):
             page_data = self.session.get(self.parse_link, params=tags)
             page_data.raise_for_status()
             links += list(map(lambda x: [self.main_link + x.xpath('./@href')[0], self._tender_id_handler(x.xpath('./text()')[0])],
@@ -123,10 +123,13 @@ class Parser:
         
         self.db.add(db_data)
         self.db.commit()
+        db_data.winner = [winner]
         return db_data
 
     def db_getter(self, id) -> Data:
         data = self.db.query(Data).get(id)
+        winner = data.winner[0]
+        data.winner = [winner]
         return data
 
     def parse_ea44(self, link):

@@ -1,0 +1,58 @@
+{% extends "form.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+{% endblock %}
+{% block content %}
+<h3 class="text-primary text-center">История запросов</h3>
+<table class="history__table" border="1px">
+    <thead>
+        <th>id</th>
+        <th>дата создания</th>
+        <th>ключевое слово</th>
+        <th>минимальная цена</th>
+        <th>максимальная цена</th>
+        <th>дата с</th>
+        <th>дата до</th>
+        <th>сортировка по</th>
+        <th>состояние</th>
+        <th>ссылка для скачивания</th>
+    </thead>
+    <tbody>
+        {% for history in current_user.history %}
+        <tr>
+            <td>{{ history.id }}</td>
+            <td>{{ history.date.strftime('%d.%m.%Y %H:%M') }}</td>
+            {% if history.tag %}
+            <td>{{ history.tag }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            {% if history.min_price %}
+            <td>{{ hitory.min_price }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            {% if history.max_price %}
+            <td>{{ history.max_price }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            {% if history.date_from %}
+            <td>{{ history.date_from.strftime('%d.%m.%Y')}}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td>{{ history.date_to.strftime('%d.%m.%Y') }}</td>
+            <td>{{ history.sort_filter.replace('+', ' ') }}</td>
+            <td>{{ history.state }}</td>
+            {% if history.state == 'завершён' %}
+            <td><a href="{{ '/download/csv?id=' + str(history.id) }}">скачать</a></td>
+            {% else %}
+            <td>загрузка еще не завершена</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

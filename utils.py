@@ -12,4 +12,4 @@ def check_email(mail: str) -> bool:
 
 
 def geherate_key() -> str:
-    return ''.join(random.choice(string.ascii_letters) for _ in range(16))
+    return ''.join(random.choice(string.ascii_letters) for _ in range(32))
