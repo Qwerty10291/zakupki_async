@@ -68,6 +68,7 @@ class ParserController:
 
         winner = data.winner[0]
         row += ';'.join([winner.name, winner.position, winner.price])
+        row += '"' + data.document_links + '";'
         return row
     
     def process_handler(self, element:list):
