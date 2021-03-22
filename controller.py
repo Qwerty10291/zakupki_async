@@ -12,19 +12,18 @@ class ParserController:
         self.queue = []
         self.parser_limit = parser_limit
         self.mp_queue = mp.Queue()
-    
-    def add_parser(self, user_id, parameters:dict):
+
+    def add_parser(self, user_id, parameters: dict):
         parser = Parser(parameters)
         history = self._create_history(user_id, parameters)
         self.mp_queue.put_nowait([parser, history])
 
-    
     def start_loop(self):
-        self.loop_process = mp.Process(target=self.loop, args=(self.mp_queue, ))
+        self.loop_process = mp.Process(
+            target=self.loop, args=(self.mp_queue, ))
         self.loop_process.start()
 
-
-    def loop(self, queue:mp.Queue):
+    def loop(self, queue: mp.Queue):
         global_init('db/db.sqlite')
         self.session = create_session()
         while True:
@@ -32,12 +31,12 @@ class ParserController:
                 element = queue.get()
                 self.process_handler(element)
                 queue.put(self.parsers)
-            
+
             if len(self.parsers) > 0:
                 for i in range(len(self.parsers)):
                     if i >= len(self.parsers):
                         break
-                    
+
                     data = self.parsers[i][0].pipe[0].recv()
                     if data.__class__ == str:
                         if data == 'end':
@@ -49,16 +48,16 @@ class ParserController:
                         else:
                             print(data)
                     elif data.__class__ == Data:
-                        self.parsers[i][1].document += self.data_handler(data) + '\n'
-                        self.parsers[i][1].html += self.generate_html(data) + '\n'
+                        self.parsers[i][1].document += self.data_handler(
+                            data) + '\n'
+                        self.parsers[i][1].html += self.generate_html(
+                            data) + '\n'
                         print(data.id)
                     else:
                         print(data)
-                        
 
             else:
                 time.sleep(3)
-
 
     def data_handler(self, data: Data):
         row = ''
@@ -71,17 +70,17 @@ class ParserController:
         row += ';'.join([winner.name, winner.position, winner.price])
         row += '"' + data.document_links + '";'
         return row
-    
+
     def generate_html(self, data: Data):
         row = '<tr>'
-        row += '\t\n'.join(self._td_wrapper, [data.id, data.type, data.tender_price, data.tender_date.strftime('%d.%m.%Y'),
-                                              data.tender_object, data.customer, data.tender_adress, data.tender_delivery, data.tender_terms,
-                                              data.winner.name, data.winner.position, data.winner.price])
+        row += '\t\n'.join(map(self._td_wrapper, [data.id, data.type, data.tender_price, data.tender_date.strftime('%d.%m.%Y'),
+                                                  data.tender_object, data.customer, data.tender_adress, data.tender_delivery, data.tender_terms,
+                                                  data.winner.name, data.winner.position, data.winner.price]))
         row += self._link_wrapper(data.document_links) + '\n'
         row += f'<td><a href={data.tender_link}>{data.tender_link}</a></td></tr>'
         return row
-    
-    def process_handler(self, element:list):
+
+    def process_handler(self, element: list):
         if len(self.parsers) >= self.parser_limit:
             element[1].state = 'в очереди'
             print('в очереди')
@@ -95,20 +94,20 @@ class ParserController:
             self.session.add(element[1])
             self.session.commit()
             self.parsers.append(element)
-    
+
     def move_queue(self):
         if len(self.queue) > 0:
             element = self.queue.pop(0)
             element[1].state = 'в процессе'
             self.session.commit()
             self.parsers.append(element)
-    
 
-    def _create_history(self, user_id:int, parameters: dict):
+    def _create_history(self, user_id: int, parameters: dict):
         history = History()
         history.user_id = user_id
         history.tag = parameters.get('searchString')
         history.state = ''
+        history.html = ''
         history.document = ''
         if 'priceFromGeneral' in parameters:
             history.min_price = int(parameters['priceFromGeneral'])
@@ -126,10 +125,10 @@ class ParserController:
         else:
             history.sort_direction = True
         return history
-    
+
     def _td_wrapper(self, text):
         return f'<td>{text}</td>'
-    
+
     def _link_wrapper(self, links):
-        a = '\n'.join(lambda x: f"<a href={x} target='_blank'>{x}</a>", links.split('\n'))
+        a = '\n'.join(map(lambda x: f"<a href={x} target='_blank'>{x}</a>", links.split('\n')))
         return f'<td>{a}</td>'

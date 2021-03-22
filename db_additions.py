@@ -1,3 +1,4 @@
+from flask.globals import session
 from data import db_session
 from data.models import Applications, User, Auth, History
 from paginate_sqlalchemy import SqlalchemyOrmPage
@@ -21,6 +22,11 @@ def get_history(id):
         return history[0]
     else:
         return None
+
+def load_histories(user_id) -> list:
+    session = db_session.create_session()
+    histories = session.query(History).filter(History.user_id == user_id).all()
+    return reversed(histories)
 
 
 def get_auth_data(login: str) -> Auth:

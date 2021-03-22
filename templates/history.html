@@ -18,7 +18,7 @@
         <th>ссылка для скачивания</th>
     </thead>
     <tbody>
-        {% for history in current_user.history %}
+        {% for history in histories %}
         <tr>
             {% if history.state == 'завершён' %}
             <td><a href="{{ '/download/history?id=' + str(history.id) }}">{{ history.id }}</a></td>

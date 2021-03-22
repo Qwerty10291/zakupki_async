@@ -105,7 +105,8 @@ def create_request():
 @blueprint.route('/history')
 @login_required
 def history():
-    return render_template('history.html', str=str)
+    histories = db_additions.load_histories(current_user.id)
+    return render_template('history.html', str=str, histories=histories)
 
 @blueprint.route('/download/history')
 @login_required
@@ -123,7 +124,7 @@ def download_history():
     if history.state != 'завершён':
         return 'документ еще не загружен'
     
-    return render_template('tender_data.html', data=history.html)
+    return open('templates/tender_data.html', 'r', encoding='utf-8').read().format(history.html)
 
 
 @blueprint.route('/download/csv')
