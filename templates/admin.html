@@ -1,0 +1,47 @@
+{% extends 'form.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<h3 class="text-primary text-center">Админ панель</h3>
+<div class="container-fluid user__reg__container">
+    <h4 class="text-center">Заявки на регистрацию</h4>
+    <table id="reg_table" border="1px" cellpadding='5px'>
+        <thead>
+            <th>id пользователя</th>
+            <th>логин</th>
+            <th>дата подачи заявки</th>
+            <th>дествия</th>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="button_container">
+        <button id="btn-reg-first"><<</button>
+        <button id="btn-reg-prev"><</button>
+        <button id="btn-reg-next">></button>
+        <button id="btn-reg-last">>></button>
+    </div>
+</div>
+<div class="form-container" id='register_admin'>
+    <h3 class="text-center text-primary">Регистрация администратора</h3>
+    <label for="admin_username">Имя</label>
+    <input type="text" id="admin_username" required>
+    <label for="admin_login">Логин</label>
+    <input type="text" id="admin_login" required>
+    <label for="admin_password">Пароль</label>
+    <input type="text" id="admin_password" required>
+    <label for="admin_mail">Почта</label>
+    <input type="text" id="admin_mail" required>
+    <input class="btn btn-primary" id="admin_reg_submit" name="submit" type="submit" value="Зарегестрировать">
+    <div class="alert alert-danger" id='reg_alert' style="display: none;"></div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script> 
+{% endblock %}

@@ -115,3 +115,4 @@ class ParserController:
         else:
             history.sort_direction = True
         return history
+    

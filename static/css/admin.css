@@ -1,0 +1,28 @@
+.btn-container{
+    display: flex;
+}
+.btn-container button{
+    margin: 2px 5px 2px 5px;
+}
+.form-container{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+}
+.form-container > input, .form-container > button, .form-container > label, .form-container > div.alert{
+    width: 25%;
+    max-width: 800px;
+    align-self: center;
+    margin-top: 3px;
+}
+.form-container > div.alert{
+    text-align: center;
+}
+.form-container .btn{
+    margin-top: 25px;
+    align-self: center;
+}
+
+#register_admin{
+    margin-top: 25px;
+}

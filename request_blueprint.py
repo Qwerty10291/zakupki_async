@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, abort, session, send_file
+from flask import Blueprint, request, redirect, abort, send_file
 from flask.templating import render_template
 from controller import ParserController
 import db_additions
@@ -10,6 +10,7 @@ from io import BytesIO
 blueprint = Blueprint('create_and_show_requests',
                       __name__, template_folder='templates')
 controller = ParserController()
+
 
 @blueprint.route('/create_request', methods=['POST'])
 @login_required
@@ -86,11 +87,11 @@ def create_request():
         return abort(404)
     parameters['search-filter'] = sort_parameters[search_filter][0]
     parameters['sortBy'] = sort_parameters[search_filter][1]
-    
+
     sort_direction = request.form.get('sort-direction')
     if not sort_direction:
         return abort(404)
-    
+
     if sort_direction == 'from-new':
         parameters['sortDirection'] = 'false'
     elif sort_direction == 'from-old':
@@ -100,10 +101,12 @@ def create_request():
     controller.add_parser(user.id, parameters)
     return redirect('/')
 
+
 @blueprint.route('/history')
 @login_required
 def history():
     return render_template('history.html', str=str)
+
 
 @blueprint.route('/download/csv')
 @login_required
@@ -113,13 +116,13 @@ def download_csv():
         history_id = int(history_id)
     except ValueError:
         return abort(500)
-    
+
     history = db_additions.get_history(history_id)
     if not history:
         return 'ошибка: записи с таким id не существует'
-    
+
     if not history.document:
         return 'документ еще не загружен'
-    
+
     file = BytesIO(bytes(history.document, encoding='utf-8'),)
     return send_file(file, as_attachment=True, mimetype='application/octet-stream', attachment_filename=f'закупки_{history_id}.csv')

@@ -4,6 +4,7 @@ from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
 from flask_login import UserMixin
 
+
 class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'user'
 
@@ -61,6 +62,7 @@ class Applications(SqlAlchemyBase):
         sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(
         sqlalchemy.Integer, sqlalchemy.ForeignKey('user.id'))
+    login = sqlalchemy.Column(sqlalchemy.String)
     date = sqlalchemy.Column(
         sqlalchemy.DateTime, default=datetime.datetime.now())
     user = orm.relation('User')

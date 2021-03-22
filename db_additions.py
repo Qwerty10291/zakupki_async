@@ -1,6 +1,6 @@
-from flask.globals import session
 from data import db_session
-from data.models import User, Auth, History
+from data.models import Applications, User, Auth, History
+from paginate_sqlalchemy import SqlalchemyOrmPage
 from utils import geherate_key
 
 
@@ -12,6 +12,7 @@ def get_user(id) -> User:
 def check_user(id) -> bool:
     session = db_session.create_session()
     return bool(session.query(User).filter(User.id == id).count())
+
 
 def get_history(id):
     session = db_session.create_session()
@@ -45,7 +46,36 @@ def register_user(login, password, mail, name) -> User:
     session = db_session.create_session()
     user = User()
     auth = Auth()
+
+    user.is_approved = False
     user.name = name
+    user.role = 'user'
+    user.key = geherate_key()
+    auth.login = login
+    auth.password = password
+    auth.email = mail
+    user.auth.append(auth)
+
+    session.add(user)
+    session.flush()
+
+    application = Applications()
+    print(user.id)
+    application.user_id = user.id
+    application.login = login
+    session.add(application)
+
+    session.commit()
+    return user
+
+
+def register_admin(login, password, mail, name) -> User:
+    session = db_session.create_session()
+    user = User()
+    auth = Auth()
+    user.is_approved = True
+    user.name = name
+    user.role = 'admin'
     user.key = geherate_key()
     auth.login = login
     auth.password = password
@@ -53,7 +83,6 @@ def register_user(login, password, mail, name) -> User:
     user.auth.append(auth)
     session.add(user)
     session.commit()
-    return user
 
 
 def delete_user(id):
@@ -67,3 +96,34 @@ def get_user_history(id) -> list:
     session = db_session.create_session()
     user = session.query(User).get(id)
     return user.history
+
+
+def admin_get_users(page_num: int) -> list:
+    session = db_session.create_session()
+    query = session.query(Applications)
+    page = SqlalchemyOrmPage(query, page=page_num, items_per_page=10)
+    users = sorted(page.items, key=lambda x: x.date)
+    return users
+
+
+def admin_accept_user(id):
+    if check_user(id):
+        session = db_session.create_session()
+        user = session.query(User).get(id)
+        user.is_approved = True
+        application = session.query(Applications).filter(
+            Applications.user_id == id).first()
+        session.delete(application)
+        session.commit()
+        return True
+
+
+def admin_decline_user(id):
+    if check_user(id):
+        session = db_session.create_session()
+        user = session.query(User).get(id)
+        session.delete(user)
+        session.delete(session.query(Applications).filter(
+            Applications.user_id == id).first())
+        session.commit()
+        return True
