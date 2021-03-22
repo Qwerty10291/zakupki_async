@@ -75,7 +75,7 @@ class ParserController:
         row = '<tr>'
         row += '\t\n'.join(map(self._td_wrapper, [data.id, data.type, data.tender_price, data.tender_date.strftime('%d.%m.%Y'),
                                                   data.tender_object, data.customer, data.tender_adress, data.tender_delivery, data.tender_terms,
-                                                  data.winner.name, data.winner.position, data.winner.price]))
+                                                  data.winner[0].name, data.winner[0].position, data.winner[0].price]))
         row += self._link_wrapper(data.document_links) + '\n'
         row += f'<td><a href={data.tender_link}>{data.tender_link}</a></td></tr>'
         return row
