@@ -50,6 +50,7 @@ class ParserController:
                             print(data)
                     elif data.__class__ == Data:
                         self.parsers[i][1].document += self.data_handler(data) + '\n'
+                        self.parsers[i][1].html += self.generate_html(data) + '\n'
                         print(data.id)
                     else:
                         print(data)
@@ -69,6 +70,15 @@ class ParserController:
         winner = data.winner[0]
         row += ';'.join([winner.name, winner.position, winner.price])
         row += '"' + data.document_links + '";'
+        return row
+    
+    def generate_html(self, data: Data):
+        row = '<tr>'
+        row += '\t\n'.join(self._td_wrapper, [data.id, data.type, data.tender_price, data.tender_date.strftime('%d.%m.%Y'),
+                                              data.tender_object, data.customer, data.tender_adress, data.tender_delivery, data.tender_terms,
+                                              data.winner.name, data.winner.position, data.winner.price])
+        row += self._link_wrapper(data.document_links) + '\n'
+        row += f'<td><a href={data.tender_link}>{data.tender_link}</a></td></tr>'
         return row
     
     def process_handler(self, element:list):
@@ -117,3 +127,9 @@ class ParserController:
             history.sort_direction = True
         return history
     
+    def _td_wrapper(self, text):
+        return f'<td>{text}</td>'
+    
+    def _link_wrapper(self, links):
+        a = '\n'.join(lambda x: f"<a href={x} target='_blank'>{x}</a>", links.split('\n'))
+        return f'<td>{a}</td>'

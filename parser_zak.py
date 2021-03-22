@@ -79,6 +79,7 @@ class Parser:
                     data = self.db_handler(link[1], info)
                     self.pipe[1].send(data)
                 except Exception as msg:
+                    self.pipe[1].send(msg.__class__.__name__)
                     time.sleep(10)
             else:
                 self.pipe[1].send(self.db_getter(link[1]))

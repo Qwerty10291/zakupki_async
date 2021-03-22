@@ -51,6 +51,7 @@ class History(SqlAlchemyBase):
     sort_filter = sqlalchemy.Column(sqlalchemy.String)
     sort_direction = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     document = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
+    html = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
     date = sqlalchemy.Column(
         sqlalchemy.DateTime, default=datetime.datetime.now())
     user = orm.relation('User')

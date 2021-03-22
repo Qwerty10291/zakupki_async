@@ -107,6 +107,24 @@ def create_request():
 def history():
     return render_template('history.html', str=str)
 
+@blueprint.route('/download/history')
+@login_required
+def download_history():
+    history_id = request.args.get('id', None)
+    try:
+        history_id = int(history_id)
+    except ValueError:
+        return abort(500)
+    
+    history = db_additions.get_history(history_id)
+    if not history:
+        return 'ошибка: записи с таким id не существует'
+
+    if history.state != 'завершён':
+        return 'документ еще не загружен'
+    
+    return render_template('tender_data.html', data=history.html)
+
 
 @blueprint.route('/download/csv')
 @login_required

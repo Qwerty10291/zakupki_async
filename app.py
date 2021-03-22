@@ -79,6 +79,4 @@ def logout():
 if __name__ == '__main__':
     db_session.global_init('db/db.sqlite')
     request_blueprint.controller.start_loop()
-    db_additions.register_admin('admin', generate_password_hash(
-        'nimda'), 'admin@admin.ru', 'admin')
     app.run('127.0.0.1', port=8080, debug=True)
