@@ -28,7 +28,7 @@ def load_users():
     except:
         return abort(500)
     users = db_additions.admin_get_users(page)
-    data = json.dumps([{'id': user.user_id, 'login': user.login,
+    data = json.dumps([{'id': user.user_id, 'login': user.login, 'name': user.user.name, 'mail': user.user.auth[0].email,
                         'date': user.date.strftime('%d.%m.%Y')} for user in users])
     return data
 
