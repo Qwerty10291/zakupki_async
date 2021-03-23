@@ -124,7 +124,7 @@ def download_history():
     if history.state != 'завершён':
         return 'документ еще не загружен'
     
-    return open('templates/tender_data.html', 'r', encoding='utf-8').read().format(history.html)
+    return render_template('tender_data.html', data=history.html)
 
 
 @blueprint.route('/download/csv')

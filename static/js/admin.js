@@ -45,6 +45,8 @@ function user_reg_handler(json) {
         element = $(`<tr id='reg_${user.id}'>
         <td>${user.id}</td>
         <td>${user.login}</td>
+        <td>${user.name}</td>
+        <td>${user.mail}</td>
         <td>${user.date}</td>
         </tr>`);
         element.append($('<td></td>').append(create_reg_buttons(user.id)));
