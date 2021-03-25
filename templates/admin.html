@@ -8,25 +8,69 @@
 <h3 class="text-primary text-center">Админ панель</h3>
 <div class="container-fluid user__reg__container">
     <h4 class="text-center">Заявки на регистрацию</h4>
-    <table id="reg_table" border="1px" cellpadding='5px'>
-        <thead>
-            <th>id пользователя</th>
-            <th>логин</th>
-            <th>имя</th>
-            <th>почта</th>
-            <th>дата подачи заявки</th>
-            <th>дествия</th>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <div class="button_container">
-        <button id="btn-reg-first"><<</button>
-        <button id="btn-reg-prev"><</button>
-        <button id="btn-reg-next">></button>
-        <button id="btn-reg-last">>></button>
+    <div class="row">
+        <table id="reg_table" class="info-table" border="1px" cellpadding='5px'>
+            <thead>
+                <th>id пользователя</th>
+                <th>логин</th>
+                <th>имя</th>
+                <th>почта</th>
+                <th>дата подачи заявки</th>
+                <th>дествия</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="button_container">
+            <button id="btn-reg-first"><<</button>
+            <button id="btn-reg-prev"><</button>
+            <button id="btn-reg-next">></button>
+            <button id="btn-reg-last">>></button>
+        </div>
+    </div>
+    <h4 class="text-center">Список пользователей</h4>
+    <div class="row">
+        <table id="user_table" class="info-table" border='1px' cellpadding='5px'>
+            <thead>
+                <th>id</th>
+                <th>роль</th>
+                <th>имя</th>
+                <th>логин</th>
+                <th>почта</th>
+                <th>дата регистрации</th>
+                <th>Действия</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="button_container">
+            <button id="btn-user-first"><<</button>
+            <button id="btn-user-prev"><</button>
+            <button id="btn-user-next">></button>
+            <button id="btn-user-last">>></button>
+        </div>
+    </div>
+    <h4 class="text-center">Список заявок на парсинг</h4>
+    <div class="row">
+        <table id="pars_table" class="info-table" border='1px' cellpadding='5px'>
+            <thead>
+                <th>id</th>
+                <th>ключевое слово</th>
+                <th>статус</th>
+                <th>дата подачи</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="button_container">
+            <button id="btn-history-first"><<</button>
+            <button id="btn-history-prev"><</button>
+            <button id="btn-history-next">></button>
+            <button id="btn-history-last">>></button>
+        </div>
     </div>
 </div>
+
 <div class="form-container" id='register_admin'>
     <h3 class="text-center text-primary">Регистрация администратора</h3>
     <label for="admin_username">Имя</label>

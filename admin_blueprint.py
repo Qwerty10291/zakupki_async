@@ -20,17 +20,50 @@ def index():
 
 @blueprint.route('/admin/load_users_reg')
 @login_required
+def load_reg():
+    if current_user.role != 'admin':
+        return 'вы не администратор'
+    try:
+        page = int(request.args.get('page'))
+    except:
+        return abort(500)
+    data = db_additions.admin_get_reg(page)
+    users = [{'id': user.user_id, 'login': user.login, 'name': user.user.name, 'mail': user.user.auth[0].email,
+              'date': user.date.strftime('%d.%m.%Y')} for user in data['users']]
+    max_page = data['max']
+    return json.dumps({'data': users, 'page_max': max_page})
+
+
+@blueprint.route('/admin/load_users')
+@login_required
 def load_users():
     if current_user.role != 'admin':
         return 'вы не администратор'
     try:
-        page = request.args.get('page')
+        page = int(request.args.get('page'))
     except:
         return abort(500)
-    users = db_additions.admin_get_users(page)
-    data = json.dumps([{'id': user.user_id, 'login': user.login, 'name': user.user.name, 'mail': user.user.auth[0].email,
-                        'date': user.date.strftime('%d.%m.%Y')} for user in users])
-    return data
+    data = db_additions.admin_get_users(page)
+    users = [{'id': user.id, 'role': user.role, 'name': user.name, 'login': user.auth[0].login,
+              'mail': user.auth[0].email, 'date': user.reg_date.strftime('%d.%m.%Y')} for user in data['users']]
+    max_page = data['max']
+    return json.dumps({'data': users, 'page_max': max_page})
+
+
+@blueprint.route('/admin/load_pars')
+@login_required
+def load_pars():
+    if current_user.role != 'admin':
+        return 'вы не админимтратор'
+    try:
+        page = int(request.args.get('page'))
+    except:
+        return abort(500)
+    data = db_additions.admin_get_pars(page)
+    pars = [{'id': pars.id, 'tag': pars.tag, 'state': pars.state,
+             'date': pars.date.strftime('%d.%m.%Y')} for pars in data['pars']]
+    max_page = data['max']
+    return json.dumps({'data': pars, 'page_max': max_page})
 
 
 @blueprint.route('/admin/accept_user')
@@ -62,6 +95,22 @@ def decline_user():
 
     if not db_additions.admin_decline_user(user_id):
         return 'пользователя с таким id не существует'
+    return 'success'
+
+
+@blueprint.route('/admin/delete_user')
+@login_required
+def delete_user():
+    if current_user.role != 'admin':
+        return 'вы не администратор'
+
+    try:
+        user_id = int(request.args.get('id'))
+    except:
+        return abort(500)
+
+    if not db_additions.delete_user(user_id):
+        return 'ошибка удаления пользователя'
     return 'success'
 
 

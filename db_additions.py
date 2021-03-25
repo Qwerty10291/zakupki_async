@@ -1,6 +1,8 @@
 from flask.globals import session
+from sqlalchemy.orm import query
+from sqlalchemy.sql.expression import true
 from data import db_session
-from data.models import Applications, User, Auth, History
+from data.models import Applications, Data, User, Auth, History
 from paginate_sqlalchemy import SqlalchemyOrmPage
 from utils import geherate_key
 
@@ -22,6 +24,7 @@ def get_history(id):
         return history[0]
     else:
         return None
+
 
 def load_histories(user_id) -> list:
     session = db_session.create_session()
@@ -104,12 +107,31 @@ def get_user_history(id) -> list:
     return user.history
 
 
-def admin_get_users(page_num: int) -> list:
+def admin_get_reg(page_num: int) -> dict:
     session = db_session.create_session()
     query = session.query(Applications)
     page = SqlalchemyOrmPage(query, page=page_num, items_per_page=10)
     users = sorted(page.items, key=lambda x: x.date)
-    return users
+    max_page = query.count() // 10 + 1
+    return {'users': users, 'max': max_page}
+
+
+def admin_get_users(page_num: int) -> dict:
+    session = db_session.create_session()
+    query = session.query(User)
+    page = SqlalchemyOrmPage(query, page=page_num, items_per_page=10)
+    users = sorted(page.items, key=lambda x: x.id, reverse=True)
+    max_page = query.count() // 10 + 1
+    return {'users': users, 'max': max_page}
+
+
+def admin_get_pars(page_num: int) -> dict:
+    session = db_session.create_session()
+    query = session.query(History)
+    page = SqlalchemyOrmPage(query, page=page_num, items_per_page=10)
+    pars = sorted(page.items, key=lambda x: x.id, reverse=True)
+    max_page = query.count() // 10 + 1
+    return {'pars': pars, 'max': max_page}
 
 
 def admin_accept_user(id):
@@ -131,5 +153,16 @@ def admin_decline_user(id):
         session.delete(user)
         session.delete(session.query(Applications).filter(
             Applications.user_id == id).first())
+        session.commit()
+        return True
+
+
+def admin_delete_user(id):
+    if check_user(id):
+        session = db_session.create_session()
+        user = session.query(User).get(id)
+        if user.role == 'admin':
+            return False
+        session.delete(user)
         session.commit()
         return True
