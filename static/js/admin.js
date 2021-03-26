@@ -192,7 +192,8 @@ function create_user_row(user) {
 
 function create_pars_row(pars) {
     element = $(`<tr id='pars_${pars.id}'>
-        <td>${pars.id}</td>
+        <td><a href='/download/history?id=${pars.id}'>${pars.id}</a></td>
+        <td>${pars.user_id}</td>
         <td>${pars.tag}</td>
         <td>${pars.state}</td>
         <td>${pars.date}</td></tr>`);

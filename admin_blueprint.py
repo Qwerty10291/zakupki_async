@@ -60,7 +60,7 @@ def load_pars():
     except:
         return abort(500)
     data = db_additions.admin_get_pars(page)
-    pars = [{'id': pars.id, 'tag': pars.tag, 'state': pars.state,
+    pars = [{'id': pars.id, 'user_id': pars.user_id, 'tag': pars.tag, 'state': pars.state,
              'date': pars.date.strftime('%d.%m.%Y')} for pars in data['pars']]
     max_page = data['max']
     return json.dumps({'data': pars, 'page_max': max_page})

@@ -62,12 +62,12 @@ class Parser:
         # получаем количество страниц
         page_num = int(document_fromstring(data.text).xpath(
             '//ul[@class="pages"]/li[last()]/a/span/text()')[0])
-        for i in range(1, 2):
+        for i in range(1, page_num):
+            tags['pageNumber'] = str(i)
             page_data = self.session.get(self.parse_link, params=tags)
             page_data.raise_for_status()
             links += list(map(lambda x: [self.main_link + x.xpath('./@href')[0], self._tender_id_handler(x.xpath('./text()')[0])],
                               document_fromstring(page_data.text).xpath('//div[@class="registry-entry__header-mid__number"]/a')))
-            tags['pageNumber'] = str(i)
             self.pipe[1].send(f'Страница: {i}')
         return links
 
