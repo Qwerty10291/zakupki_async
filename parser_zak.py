@@ -4,7 +4,7 @@ import re
 import multiprocessing as mp
 import time
 import json
-from data import db_session
+import sqlalchemy
 from data.models import Data, Winners, Objects
 from datetime import datetime
 
@@ -40,14 +40,15 @@ class Parser:
         self.pipe[1].send('парсер инициализирован')
 
     def start_async(self):
-        process = mp.Process(target=self.async_parser)
+        process = mp.Process(target=self.async_parser,)
         process.start()
         self.process = process
         return process
 
     def async_parser(self):
-        db_session.global_init('db/db.sqlite')
-        self.db = db_session.create_session()
+        conn_str = 'postgresql+psycopg2://zakupki:qwerty1029@127.0.0.1/zakupki'
+        engine = sqlalchemy.create_engine(conn_str, echo=False)
+        self.session_maker = sqlalchemy.orm.sessionmaker(bind=engine)
         self.init_parser()
         links = self.get_links_to_parse()
         self.parse_all(links)
@@ -62,7 +63,7 @@ class Parser:
         # получаем количество страниц
         page_num = int(document_fromstring(data.text).xpath(
             '//ul[@class="pages"]/li[last()]/a/span/text()')[0])
-        for i in range(1, page_num):
+        for i in range(1, 2):
             tags['pageNumber'] = str(i)
             page_data = self.session.get(self.parse_link, params=tags)
             page_data.raise_for_status()
@@ -74,22 +75,22 @@ class Parser:
     def parse_all(self, links):
         for link in links:
             if not self.db_checker(link[1]):
-                try:
-                    info = self.parse_ea44(link[0])
-                    data = self.db_handler(link[1], info)
-                    self.pipe[1].send(data)
-                except Exception as msg:
-                    self.pipe[1].send(msg.__class__.__name__)
-                    time.sleep(10)
+                info = self.parse_ea44(link[0])
+                data = self.db_handler(link[1], info)
+                self.pipe[1].send(data)
             else:
                 self.pipe[1].send(self.db_getter(link[1]))
             time.sleep(self.timeout)
         self.pipe[1].send('end')
     
     def db_checker(self, tender_id):
-        return self.db.query(Data).filter(Data.id == tender_id).count()
+        session = self.session_maker()
+        data = session.query(Data).filter(Data.id == tender_id).count()
+        session.close()
+        return data
     
     def db_handler(self, id, data):
+        session = self.session_maker()
         db_data = Data()
         db_data.id = id
         db_data.tender_price = self._tender_price_handler(data['tender_price'])
@@ -121,15 +122,18 @@ class Parser:
                 data.price = i[5]
                 db_data.objects.append(data)
         
-        self.db.add(db_data)
-        self.db.commit()
+        session.add(db_data)
+        session.commit()
         db_data.winner = [winner]
+        session.close()
         return db_data
 
     def db_getter(self, id) -> Data:
-        data = self.db.query(Data).get(id)
+        session = self.session_maker()
+        data = session.query(Data).get(id)
         winner = data.winner[0]
         data.winner = [winner]
+        session.close()
         return data
 
     def parse_ea44(self, link):

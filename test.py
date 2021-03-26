@@ -1,6 +1,7 @@
-from db_additions import register_user
+from flask.globals import session
 from data import db_session
-db_session.global_init('db/db.sqlite')
-
-for i in range(20):
-    register_user(f'test{i}', f'test{i}', f'test{i}@test.ru', f'test{i}')
+from data.models import *
+db_session.global_init('1')
+session = db_session.create_session()
+for i in session.query(User).all():
+    print(i.name)

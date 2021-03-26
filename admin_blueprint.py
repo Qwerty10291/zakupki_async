@@ -109,7 +109,7 @@ def delete_user():
     except:
         return abort(500)
 
-    if not db_additions.delete_user(user_id):
+    if not db_additions.admin_delete_user(user_id):
         return 'ошибка удаления пользователя'
     return 'success'
 

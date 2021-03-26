@@ -1,8 +1,10 @@
+from sqlalchemy.orm import session
 from parser_zak import Parser
 from data.db_session import create_session, global_init
 from data.models import History, User, Data
 from datetime import datetime
 import multiprocessing as mp
+import sqlalchemy
 import time
 
 
@@ -24,8 +26,10 @@ class ParserController:
         self.loop_process.start()
 
     def loop(self, queue: mp.Queue):
-        global_init('db/db.sqlite')
-        self.session = create_session()
+        conn_str = 'postgresql+psycopg2://zakupki:qwerty1029@127.0.0.1/zakupki'
+        engine = sqlalchemy.create_engine(conn_str, echo=False)
+        session_maker = sqlalchemy.orm.sessionmaker(bind=engine)
+        self.session = session_maker()
         while True:
             if queue.qsize():
                 element = queue.get()

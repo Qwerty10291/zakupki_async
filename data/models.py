@@ -72,7 +72,7 @@ class Applications(SqlAlchemyBase):
 class Data(SqlAlchemyBase):
     __tablename__ = 'data'
 
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
     type = sqlalchemy.Column(sqlalchemy.String)
     tender_price = sqlalchemy.Column(sqlalchemy.Float)
     tender_date = sqlalchemy.Column(sqlalchemy.DateTime)
@@ -92,7 +92,7 @@ class Objects(SqlAlchemyBase):
     id = sqlalchemy.Column(
         sqlalchemy.Integer, primary_key=True, autoincrement=True)
     tender_id = sqlalchemy.Column(
-        sqlalchemy.Integer, sqlalchemy.ForeignKey('data.id'))
+        sqlalchemy.BigInteger, sqlalchemy.ForeignKey('data.id'))
     position = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
     unit = sqlalchemy.Column(sqlalchemy.String)
@@ -105,7 +105,7 @@ class Objects(SqlAlchemyBase):
 class Winners(SqlAlchemyBase):
     __tablename__ = 'winner'
     data_id = sqlalchemy.Column(
-        sqlalchemy.Integer, sqlalchemy.ForeignKey('data.id'), primary_key=True)
+        sqlalchemy.BigInteger, sqlalchemy.ForeignKey('data.id'), primary_key=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     position = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     price = sqlalchemy.Column(sqlalchemy.String, nullable=True)
