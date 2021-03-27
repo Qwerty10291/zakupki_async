@@ -74,12 +74,15 @@ class Parser:
 
     def parse_all(self, links):
         for link in links:
-            if not self.db_checker(link[1]):
-                info = self.parse_ea44(link[0])
-                data = self.db_handler(link[1], info)
-                self.pipe[1].send(data)
-            else:
-                self.pipe[1].send(self.db_getter(link[1]))
+            try:
+                if not self.db_checker(link[1]):
+                    info = self.parse_ea44(link[0])
+                    data = self.db_handler(link[1], info)
+                    self.pipe[1].send(data)
+                else:
+                    self.pipe[1].send(self.db_getter(link[1]))
+            except:
+                time.sleep(10)
             time.sleep(self.timeout)
         self.pipe[1].send('end')
     
