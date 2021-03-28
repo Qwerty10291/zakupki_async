@@ -14,6 +14,7 @@ class ParserController:
         self.queue = []
         self.parser_limit = parser_limit
         self.mp_queue = mp.Queue()
+        self.pipe = mp.Pipe()
 
     def add_parser(self, user_id, parameters: dict):
         parser = Parser(parameters)
@@ -22,43 +23,52 @@ class ParserController:
 
     def start_loop(self):
         self.loop_process = mp.Process(
-            target=self.loop, args=(self.mp_queue, ))
+            target=self.loop, args=(self.mp_queue, self.pipe[1]))
         self.loop_process.start()
 
-    def loop(self, queue: mp.Queue):
+    def loop(self, queue: mp.Queue, pipe):
+        self.pipe = pipe
         conn_str = 'postgresql+psycopg2://zakupki:qwerty1029@127.0.0.1/zakupki'
         engine = sqlalchemy.create_engine(conn_str, echo=False)
         session_maker = sqlalchemy.orm.sessionmaker(bind=engine)
         self.session = session_maker()
+
         while True:
             if queue.qsize():
                 element = queue.get()
                 self.process_handler(element)
-                queue.put(self.parsers)
 
             if len(self.parsers) > 0:
                 for i in range(len(self.parsers)):
-                    if i >= len(self.parsers):
-                        break
-
-                    data = self.parsers[i][0].pipe[0].recv()
-                    if data.__class__ == str:
-                        if data == 'end':
-                            print('end')
-                            self.parsers[i][1].state = 'завершён'
-                            self.session.commit()
-                            del self.parsers[i]
-                            self.move_queue()
+                    try:
+                        if i >= len(self.parsers):
+                            break
+                        data = self.parsers[i][0].pipe[0].recv()
+                        if data.__class__ == str:
+                            if data == 'end':
+                                print('end')
+                                self.parsers[i][1].state = 'завершён'
+                                self.session.commit()
+                                del self.parsers[i]
+                                self.move_queue()
+                            elif data == 'error':
+                                print('error 1')
+                                self.parsers[i][1].state = 'Ошибка. Попробуйте ещё раз.'
+                                self.session.commit()
+                                del self.parsers[i]
+                                self.move_queue()
+                            else:
+                                print(data)
+                        elif data.__class__ == Data:
+                            self.parsers[i][1].document += self.data_handler(
+                                data) + '\n'
+                            self.parsers[i][1].html += self.generate_html(
+                                data) + '\n'
+                            print(data.id)
                         else:
                             print(data)
-                    elif data.__class__ == Data:
-                        self.parsers[i][1].document += self.data_handler(
-                            data) + '\n'
-                        self.parsers[i][1].html += self.generate_html(
-                            data) + '\n'
-                        print(data.id)
-                    else:
-                        print(data)
+                    except Exception as msg:
+                        print(repr(msg))
 
             else:
                 time.sleep(3)
@@ -85,19 +95,22 @@ class ParserController:
         return row
 
     def process_handler(self, element: list):
-        if len(self.parsers) >= self.parser_limit:
-            element[1].state = 'в очереди'
-            print('в очереди')
-            self.session.add(element[1])
-            self.session.commit()
-            self.queue.append(element)
-        else:
-            element[1].state = 'в процессе'
-            print('работает')
-            element[0].start_async()
-            self.session.add(element[1])
-            self.session.commit()
-            self.parsers.append(element)
+        try:
+            if len(self.parsers) >= self.parser_limit:
+                element[1].state = 'в очереди'
+                print('в очереди')
+                self.session.add(element[1])
+                self.session.commit()
+                self.queue.append(element)
+            else:
+                element[1].state = 'в процессе'
+                print('работает')
+                element[0].start_async()
+                self.session.add(element[1])
+                self.session.commit()
+                self.parsers.append(element)
+        except Exception as msg:
+            print(repr(msg))
 
     def move_queue(self):
         if len(self.queue) > 0:

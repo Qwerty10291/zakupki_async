@@ -38,6 +38,7 @@ class Parser:
     def init_parser(self):
         self.session.get('https://zakupki.gov.ru/')
         self.pipe[1].send('парсер инициализирован')
+    
 
     def start_async(self):
         process = mp.Process(target=self.async_parser,)
@@ -49,8 +50,14 @@ class Parser:
         conn_str = 'postgresql+psycopg2://zakupki:qwerty1029@127.0.0.1/zakupki'
         engine = sqlalchemy.create_engine(conn_str, echo=False)
         self.session_maker = sqlalchemy.orm.sessionmaker(bind=engine)
-        self.init_parser()
-        links = self.get_links_to_parse()
+        self.pipe[1].send('старт')
+        try:
+            self.init_parser()
+            links = self.get_links_to_parse()
+        except:
+            print('error')
+            self.pipe[1].send('error')
+            exit()
         self.parse_all(links)
 
     def get_links_to_parse(self) -> list:
