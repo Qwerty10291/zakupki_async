@@ -35,7 +35,7 @@ def load_histories(user_id) -> list:
     session = db_session.create_session()
     histories = session.query(History).filter(History.user_id == user_id).all()
     session.close()
-    return reversed(histories)
+    return sorted(histories, key=lambda x: x.id, reverse=True)
 
 
 def get_auth_data(login: str) -> Auth:
