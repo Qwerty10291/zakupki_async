@@ -64,6 +64,7 @@ class ParserController:
                                 data) + '\n'
                             self.parsers[i][1].html += self.generate_html(
                                 data) + '\n'
+                            self.parsers[i][1].tenders.append(Data)
                             print(data.id)
                         else:
                             print(data)

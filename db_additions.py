@@ -21,7 +21,7 @@ def check_user(id) -> bool:
     return data
 
 
-def get_history(id):
+def get_history(id) -> History:
     session = db_session.create_session()
     history = session.query(History).filter(History.id == id)
     session.close()

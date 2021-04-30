@@ -4,6 +4,11 @@ from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
 from flask_login import UserMixin
 
+history_association = sqlalchemy.Table('historyassociations', SqlAlchemyBase.metadata, 
+                    sqlalchemy.Column('history_id', sqlalchemy.Integer, sqlalchemy.ForeignKey('history.id')),
+                    sqlalchemy.Column('data_id', sqlalchemy.BigInteger, sqlalchemy.ForeignKey('data.id')))
+
+
 
 class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'user'
@@ -42,6 +47,7 @@ class History(SqlAlchemyBase):
     user_id = sqlalchemy.Column(
         sqlalchemy.Integer, sqlalchemy.ForeignKey('user.id'))
     state = sqlalchemy.Column(sqlalchemy.String)
+    tenders_count = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     tag = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     min_price = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     max_price = sqlalchemy.Column(sqlalchemy.BigInteger, nullable=True)
@@ -50,10 +56,9 @@ class History(SqlAlchemyBase):
         sqlalchemy.DateTime, default=datetime.datetime.now())
     sort_filter = sqlalchemy.Column(sqlalchemy.String)
     sort_direction = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
-    document = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
-    html = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
     date = sqlalchemy.Column(
         sqlalchemy.DateTime, default=datetime.datetime.now())
+    tenders = orm.relation('Data', secondary=history_association, backref='tenders')
     user = orm.relation('User')
 
 
@@ -110,3 +115,4 @@ class Winners(SqlAlchemyBase):
     position = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     price = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     data = orm.relation('Data')
+

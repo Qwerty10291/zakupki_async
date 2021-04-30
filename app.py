@@ -8,6 +8,7 @@ import db_additions
 import utils
 from auth_forms import LoginForm, RegisterForm
 from login import login_manager
+import asyncio
 
 app = Flask(__name__)
 login_manager.init_app(app)
@@ -78,5 +79,6 @@ def logout():
 
 if __name__ == '__main__':
     db_session.global_init('db/db.sqlite')
-    request_blueprint.controller.start_loop()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     app.run('127.0.0.1', port=8080, debug=False)

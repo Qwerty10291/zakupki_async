@@ -1,15 +1,18 @@
+import io
+from data.models import History
+from data.db_session import create_session
 from flask import Blueprint, request, redirect, abort, send_file
 from flask.templating import render_template
-from controller import ParserController
+from async_parser import AsyncParserController
 import db_additions
 from datetime import datetime, timedelta
 from utils import sort_parameters
 from flask_login import login_required, current_user
-from io import BytesIO
+import csv
 
 blueprint = Blueprint('create_and_show_requests',
                       __name__, template_folder='templates')
-controller = ParserController()
+controller = AsyncParserController(3, 3)
 
 
 @blueprint.route('/create_request', methods=['POST'])
@@ -98,7 +101,7 @@ def create_request():
         parameters['sortDirection'] = 'true'
     else:
         return abort(404)
-    controller.add_parser(user.id, parameters)
+    controller.create_parser(current_user.id, parameters)
     return redirect('/')
 
 
@@ -120,12 +123,31 @@ def download_history():
     history = db_additions.get_history(history_id)
     if not history:
         return 'ошибка: записи с таким id не существует'
+    
+    if current_user.role != 'admin' and history.user_id != current_user.id:
+        return 'ошибка: у вас нет прав для просмотра данного документа'
 
-    if history.state != 'завершён':
+    if history.state != 'done':
         return 'документ еще не загружен'
     
     return render_template('tender_data.html', data=history.html)
 
+
+def generate_csv(history_id) -> str:
+    session = create_session()
+    history = session.query(History).get(history_id)
+    data = []
+    for tender in history.tenders:
+        tender_objects = '"' + '\n'.join(map(lambda x: '\t'.join(x), 
+                    [[to.position, to.name, to.unit, to.quantity, to.unit_price, to.price] for to in tender.objects])) + '"'
+        winner = tender.winner[0]
+        data_raw = [tender.id, tender.type, tender.tender_object, tender.customer, str(tender.tender_price), 
+                         tender.tender_adress, str(tender.tender_delivery) + ' ' + str(tender.tender_terms), tender_objects,
+                         winner.name, winner.position, winner.price, tender.document_links, tender.tender_link
+                         ]
+        data_prep = map(lambda x: str(x) if x else '', data_raw)
+        data.append(';'.join(data_prep))
+    return io.BytesIO(bytes('\n'.join(data), encoding='utf-8'))
 
 @blueprint.route('/download/csv')
 @login_required
@@ -139,9 +161,13 @@ def download_csv():
     history = db_additions.get_history(history_id)
     if not history:
         return 'ошибка: записи с таким id не существует'
+    
+    if current_user.role != 'admin' and history.user_id != current_user.id:
+        return 'ошибка: у вас нет прав для просмотра данного документа'
 
-    if not history.document:
+    if history.state != 'done':
         return 'документ еще не загружен'
-
-    file = BytesIO(bytes(history.document, encoding='utf-8'),)
+    
+    file = generate_csv(history_id)
+    
     return send_file(file, as_attachment=True, mimetype='application/octet-stream', attachment_filename=f'закупки_{history_id}.csv')

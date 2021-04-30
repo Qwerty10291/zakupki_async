@@ -20,7 +20,7 @@
     <tbody>
         {% for history in histories %}
         <tr>
-            {% if history.state == 'завершён' %}
+            {% if history.state == 'done' %}
             <td><a href="{{ '/download/history?id=' + str(history.id) }}">{{ history.id }}</a></td>
             {% else %}
             <td>{{ history.id }}</td>
@@ -49,7 +49,7 @@
             <td>{{ history.date_to.strftime('%d.%m.%Y') }}</td>
             <td>{{ history.sort_filter.replace('+', ' ') }}</td>
             <td>{{ history.state }}</td>
-            {% if history.state == 'завершён' %}
+            {% if history.state == 'done' %}
             <td><a href="{{ '/download/csv?id=' + str(history.id) }}">скачать</a></td>
             {% else %}
             <td>загрузка еще не завершена</td>
