@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?><ns4:fcsNotificationEF xmlns:ns4="http://zakupki.gov.ru/oos/printform/1" xmlns="http://zakupki.gov.ru/oos/types/1" xmlns:ns2="http://zakupki.gov.ru/oos/common/1" xmlns:ns3="http://zakupki.gov.ru/oos/base/1" schemeVersion="11.1">
+    <id>26165257</id>
+    <externalId>krista.02800000.1799881059</externalId>
+    <purchaseNumber>0301300140921000011</purchaseNumber>
+    <docPublishDate>2021-04-08T00:22:49.760+05:00</docPublishDate>
+    <docNumber>№0301300140921000011</docNumber>
+    <href>https://zakupki.gov.ru/epz/order/notice/ea44/view/common-info.html?regNumber=0301300140921000011</href>
+    <printForm>
+        <url>https://zakupki.gov.ru/epz/order/notice/printForm/view.html?regNumber=0301300140921000011</url>
+    </printForm>
+    <purchaseObjectInfo>Закупка материалов медицинского назначения и лекарственных препаратов в 2021 году (изготовление и поставка экстемпоральных лекарственных препаратов)</purchaseObjectInfo>
+    <purchaseResponsible>
+        <responsibleOrg>
+            <regNum>03013001409</regNum>
+            <consRegistryNum>80225194</consRegistryNum>
+            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+            <postAddress>Российская Федерация, 450022, Башкортостан Респ, Уфа г, УЛИЦА МИНИГАЛИ ГУБАЙДУЛЛИНА, 21/1</postAddress>
+            <factAddress>Российская Федерация, 450022, Башкортостан Респ, Уфа г, УЛИЦА МИНИГАЛИ ГУБАЙДУЛЛИНА, 21/1</factAddress>
+            <INN>0278060411</INN>
+            <KPP>027801001</KPP>
+        </responsibleOrg>
+        <responsibleRole>CU</responsibleRole>
+        <responsibleInfo>
+            <orgPostAddress>Российская Федерация, 450022, Башкортостан Респ, Уфа г, УЛИЦА МИНИГАЛИ ГУБАЙДУЛЛИНА, 21/1</orgPostAddress>
+            <orgFactAddress>Российская Федерация, 450022, Башкортостан Респ, Уфа г, УЛИЦА МИНИГАЛИ ГУБАЙДУЛЛИНА, 21/1</orgFactAddress>
+            <contactPerson>
+                <lastName>Зиннатуллина</lastName>
+                <firstName>М.</firstName>
+                <middleName>Р.</middleName>
+            </contactPerson>
+            <contactEMail>margooorita@yandex.ru</contactEMail>
+            <contactPhone>89246677151</contactPhone>
+        </responsibleInfo>
+    </purchaseResponsible>
+    <placingWay>
+        <code>EAP44</code>
+        <name>Электронный аукцион</name>
+    </placingWay>
+    <contractConclusionOnSt83Ch2>true</contractConclusionOnSt83Ch2>
+    <ETP>
+        <code>ETP_SBAST</code>
+        <name>АО «Сбербанк-АСТ»</name>
+        <url>http://www.sberbank-ast.ru</url>
+    </ETP>
+    <procedureInfo>
+        <collecting>
+            <startDate>2021-04-08T00:22:49+05:00</startDate>
+            <place>АО «Сбербанк–АСТ»</place>
+            <order>Подача заявок на участие в электронном аукционе осуществляется только лицами, зарегистрированными в ЕИС и аккредитованными на электронной площадке 
+Участник закупки вправе подать заявку на участие в электронном аукционе в любое время с момента размещения извещения о проведении электронного аукциона до даты и времени окончания срока подачи заявок на участие в электронном аукционе. Участник закупки вправе подать только одну заявку на участие в электронном аукционе.
+Заявка на участие в электронном аукционе направляется участником закупки оператору электронной площадки в форме двух электронных документов. Указанные электронные документы подаются одновременно. 
+Заявка на участие в электронном аукционе состоит из двух частей.</order>
+            <endDate>2021-04-16T10:00:00+05:00</endDate>
+        </collecting>
+        <scoring>
+            <date>2021-04-19T00:00:00+05:00</date>
+        </scoring>
+        <bidding>
+            <date>2021-04-20T00:00:00+05:00</date>
+        </bidding>
+    </procedureInfo>
+    <lot>
+        <maxPrice>44648.67</maxPrice>
+        <currency>
+            <code>RUB</code>
+            <name>Российский рубль</name>
+        </currency>
+        <quantityUndefined>false</quantityUndefined>
+        <customerRequirements>
+            <customerRequirement>
+                <customer>
+                    <regNum>03013001409</regNum>
+                    <consRegistryNum>80225194</consRegistryNum>
+                    <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                </customer>
+                <maxPrice>44648.67</maxPrice>
+                <mustPublicDiscussion>false</mustPublicDiscussion>
+                <kladrPlaces>
+                    <kladrPlace>
+                        <deliveryPlace>Республика Башкортостан, г. Уфа, ул. Минигали Губайдуллина 21/1, кабинет 2а</deliveryPlace>
+                    </kladrPlace>
+                </kladrPlaces>
+                <deliveryTerm>с момента заключения Контракта партиями еженедельно в течение 5 дней с момента подачи заявки заказчиком по телефону или по электронной почте.</deliveryTerm>
+                <contractGuarantee>
+                    <amount>2232.43</amount>
+                    <part>5.0</part>
+                    <procedureInfo>Обеспечение исполнения контракта предоставляется участником закупки, 
+с которым заключается контракт, до его заключения. 
+Исполнение контракта может обеспечиваться предоставлением банковской гарантии, выданной банком и соответствующей требованиям статьи 45 Закона №44-ФЗ, или внесением денежных средств на указанный заказчиком в пункте 20 Раздела I настоящей документации об электронном аукционе счет, на котором в соответствии с законодательством Российской Федерации учитываются операции со средствами, поступающими заказчику. 
+Способ обеспечения исполнения контракта, срок действия банковской гарантии определяются участником закупки, с которым заключается контракт, самостоятельно.</procedureInfo>
+                    <settlementAccount>00000000000000000000</settlementAccount>
+                    <personalAccount>См. прилагаемые документы</personalAccount>
+                    <bik>000000000</bik>
+                </contractGuarantee>
+                <purchaseCode>213027806041102780100100020030000244</purchaseCode>
+                <IKZInfo>
+                    <publishYear>2021</publishYear>
+                    <OKPD2Info>
+                        <ns2:undefined>0000</ns2:undefined>
+                    </OKPD2Info>
+                    <KVRInfo>
+                        <ns2:KVR>
+                            <ns3:code>244</ns3:code>
+                            <ns3:name>Прочая закупка товаров, работ и услуг</ns3:name>
+                        </ns2:KVR>
+                    </KVRInfo>
+                    <customerCode>30278060411027801001</customerCode>
+                    <purchaseNumber>0002</purchaseNumber>
+                    <purchaseOrderNumber>003</purchaseOrderNumber>
+                </IKZInfo>
+                <tenderPlan2020Info>
+                    <ns2:plan2020Number>202103013001409001</ns2:plan2020Number>
+                    <ns2:position2020Number>202103013001409001000014</ns2:position2020Number>
+                </tenderPlan2020Info>
+                <contractExecutionPaymentPlan>
+                    <financingSourcesInfo>
+                        <financingSource>Бюджет Территориального фонда обязательного медицинского страхования Республики Башкортостан</financingSource>
+                        <currentYear>2021</currentYear>
+                        <financeInfo>
+                            <total>44648.67</total>
+                            <currentYear>44648.67</currentYear>
+                            <firstYear>0</firstYear>
+                            <secondYear>0</secondYear>
+                            <subsecYears>0</subsecYears>
+                        </financeInfo>
+                    </financingSourcesInfo>
+                    <KVRsInfo>
+                        <ns2:currentYear>2021</ns2:currentYear>
+                        <ns2:KVRInfo>
+                            <ns2:KVR>
+                                <ns3:code>244</ns3:code>
+                                <ns3:name>Прочая закупка товаров, работ и услуг</ns3:name>
+                            </ns2:KVR>
+                            <ns2:KVRYearsInfo>
+                                <ns2:total>44648.67</ns2:total>
+                                <ns2:currentYear>44648.67</ns2:currentYear>
+                                <ns2:firstYear>0</ns2:firstYear>
+                                <ns2:secondYear>0</ns2:secondYear>
+                                <ns2:subsecYears>0</ns2:subsecYears>
+                            </ns2:KVRYearsInfo>
+                        </ns2:KVRInfo>
+                        <ns2:totalSum>44648.67</ns2:totalSum>
+                    </KVRsInfo>
+                </contractExecutionPaymentPlan>
+                <purchaseObjectDescription>Указаны в разделе II «ТЕХНИЧЕСКОЕ ЗАДАНИЕ (ОПИСАНИЕ ОБЪЕКТА ЗАКУПКИ)»  документации об электронном аукционе</purchaseObjectDescription>
+            </customerRequirement>
+        </customerRequirements>
+        <drugPurchaseObjectsInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>e24a8e7a-d888-11e9-be09-0b5e99583cc1</MNNExternalCode>
+                                <MNNName>ФОРМАЛЬДЕГИД</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОР ДЛЯ НАРУЖНОГО ПРИМЕНЕНИЯ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>~</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>600</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>false</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>600</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>600</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>9.941</pricePerUnit>
+                <positionPrice>5964.60</positionPrice>
+            </drugPurchaseObjectInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>1ee08368-bf5b-11e9-bd5d-8b21df2ba890</MNNExternalCode>
+                                <MNNName>ВОДОРОДА ПЕРОКСИД</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОР ДЛЯ НАРУЖНОГО ПРИМЕНЕНИЯ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>30 мг/мл</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>4500</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>true</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>4500</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>4500</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>0.94768</pricePerUnit>
+                <positionPrice>4264.56</positionPrice>
+            </drugPurchaseObjectInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>1ee08368-bf5b-11e9-bd5d-8b21df2ba890</MNNExternalCode>
+                                <MNNName>ВОДОРОДА ПЕРОКСИД</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОР ДЛЯ НАРУЖНОГО ПРИМЕНЕНИЯ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>30 мг/мл</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>10800</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>true</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>10800</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>10800</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>0.34025</pricePerUnit>
+                <positionPrice>3674.70</positionPrice>
+            </drugPurchaseObjectInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>80b6aa16-7ff1-11ea-8071-3b82547feae5</MNNExternalCode>
+                                <MNNName>ВОДА ДЛЯ ИНЪЕКЦИЙ</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОРИТЕЛЬ ДЛЯ ПРИГОТОВЛЕНИЯ ЛЕКАРСТВЕННЫХ ФОРМ ДЛЯ ИНЪЕКЦИЙ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>~</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>8400</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>true</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>8400</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>8400</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>0.68807143</pricePerUnit>
+                <positionPrice>5779.80</positionPrice>
+            </drugPurchaseObjectInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>74e2ec98-f5ab-11e9-a7d3-1b4703dbf78d</MNNExternalCode>
+                                <MNNName>СЕРЕБРА ПРОТЕИНАТ</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОР ДЛЯ МЕСТНОГО ПРИМЕНЕНИЯ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>20 мг/мл</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>1350</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>false</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>1350</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>1350</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>6.29433333</pricePerUnit>
+                <positionPrice>8497.35</positionPrice>
+            </drugPurchaseObjectInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>1ede1574-bf5b-11e9-bd5d-97950b69310e</MNNExternalCode>
+                                <MNNName>БОРНАЯ КИСЛОТА</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОР ДЛЯ МЕСТНОГО ПРИМЕНЕНИЯ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>10 мг/мл</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>1350</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>false</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>1350</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>1350</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>6.034</pricePerUnit>
+                <positionPrice>8145.90</positionPrice>
+            </drugPurchaseObjectInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>cb9d6340-abec-11ea-981d-9346ede5a246</MNNExternalCode>
+                                <MNNName>ЙОД+КАЛИЯ ЙОДИД+ГЛИЦЕРОЛ</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОР ДЛЯ МЕСТНОГО ПРИМЕНЕНИЯ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>10 мг/мл</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>600</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>true</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>600</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>600</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>4.5954</pricePerUnit>
+                <positionPrice>2757.24</positionPrice>
+            </drugPurchaseObjectInfo>
+            <drugPurchaseObjectInfo>
+                <objectInfoUsingReferenceInfo>
+                    <drugsInfo>
+                        <drugInfo>
+                            <MNNInfo>
+                                <MNNExternalCode>1ee29842-bf5b-11e9-bd5d-9be93fa8300b</MNNExternalCode>
+                                <MNNName>НИТРОФУРАЛ</MNNName>
+                            </MNNInfo>
+                            <medicamentalFormInfo>
+                                <medicamentalFormName>РАСТВОР ДЛЯ МЕСТНОГО И НАРУЖНОГО ПРИМЕНЕНИЯ</medicamentalFormName>
+                            </medicamentalFormInfo>
+                            <dosageInfo>
+                                <dosageGRLSValue>0.2 мг/мл</dosageGRLSValue>
+                                <dosageUserOKEI>
+                                    <code>111</code>
+                                    <nationalCode>см[3*];^мл</nationalCode>
+                                    <name>Кубический сантиметр;^миллилитр</name>
+                                </dosageUserOKEI>
+                                <dosageUserName>мл</dosageUserName>
+                            </dosageInfo>
+                            <basicUnit>true</basicUnit>
+                            <drugQuantity>7560</drugQuantity>
+                        </drugInfo>
+                    </drugsInfo>
+                </objectInfoUsingReferenceInfo>
+                <isZNVLP>false</isZNVLP>
+                <drugQuantityCustomersInfo>
+                    <drugQuantityCustomerInfo>
+                        <customer>
+                            <regNum>03013001409</regNum>
+                            <consRegistryNum>80225194</consRegistryNum>
+                            <fullName>ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ УЧРЕЖДЕНИЕ ЗДРАВООХРАНЕНИЯ РЕСПУБЛИКИ БАШКОРТОСТАН ПОЛИКЛИНИКА № 48 ГОРОДА УФА</fullName>
+                        </customer>
+                        <quantity>7560</quantity>
+                    </drugQuantityCustomerInfo>
+                    <total>7560</total>
+                </drugQuantityCustomersInfo>
+                <pricePerUnit>0.73604762</pricePerUnit>
+                <positionPrice>5564.52</positionPrice>
+            </drugPurchaseObjectInfo>
+            <total>44648.67</total>
+        </drugPurchaseObjectsInfo>
+        <preferenses>
+            <preferense>
+                <shortName>RBK126</shortName>
+                <name>Участникам, заявки или окончательные предложения которых содержат предложения о поставке товаров в соответствии с приказом Минфина России от 04.06.2018 № 126н</name>
+                <prefValue>15.0</prefValue>
+            </preferense>
+        </preferenses>
+        <requirements>
+            <requirement>
+                <shortName>ET44</shortName>
+                <name>Единые требования к участникам закупок в соответствии с ч. 1 ст. 31 Закона № 44-ФЗ</name>
+                <content>Установлено</content>
+            </requirement>
+            <requirement>
+                <shortName>TR442</shortName>
+                <name>Требования к участникам закупок в соответствии с частью 1.1 статьи 31 Федерального закона № 44-ФЗ</name>
+                <content>Установлено</content>
+            </requirement>
+        </requirements>
+        <restrictions>
+            <restriction>
+                <shortName>JB2149</shortName>
+                <name>Запрет на допуск товаров, работ, услуг при осуществлении закупок, а также ограничения и условия допуска в соответствии с требованиями, установленными ст. 14 Закона № 44-ФЗ</name>
+                <restrictionsSt14>
+                    <ns2:restrictionSt14>
+                        <ns2:requirementsType>
+                            <ns2:requirementType>
+                                <ns2:type>AC</ns2:type>
+                            </ns2:requirementType>
+                        </ns2:requirementsType>
+                        <ns2:NPAInfo>
+                            <ns3:code>1</ns3:code>
+                            <ns3:name>Участникам, заявки или окончательные предложения которых содержат предложения о поставке товаров в соответствии с приказом Минфина России № 126н от 04.06.2018</ns3:name>
+                            <ns3:shortName>Приказ Минфина от 04.06.2018 № 126н</ns3:shortName>
+                        </ns2:NPAInfo>
+                    </ns2:restrictionSt14>
+                </restrictionsSt14>
+            </restriction>
+        </restrictions>
+    </lot>
+    <notificationAttachments>
+        <attachment>
+            <publishedContentId>BF67A08830A39729E0530F548D0A5192</publishedContentId>
+            <fileName>Часть IV Обоснование НМЦК.xls</fileName>
+            <fileSize>45.5 Кб</fileSize>
+            <docDescription>Обоснование начальной (максимальной) цены контракта</docDescription>
+            <url>https://zakupki.gov.ru/44fz/filestore/public/1.0/download/priz/file.html?uid=BF67A08830A39729E0530F548D0A5192</url>
+        </attachment>
+        <attachment>
+            <publishedContentId>BF67391DEA34A510E0530F548D0A6364</publishedContentId>
+            <fileName>Описание объекта.doc</fileName>
+            <fileSize>70.5 Кб</fileSize>
+            <docDescription>Описание объекта закупки</docDescription>
+            <url>https://zakupki.gov.ru/44fz/filestore/public/1.0/download/priz/file.html?uid=BF67391DEA34A510E0530F548D0A6364</url>
+        </attachment>
+        <attachment>
+            <publishedContentId>BF677BB284A19DDCE0530F548D0A16AC</publishedContentId>
+            <fileName>Проект контракта.doc</fileName>
+            <fileSize>204.5 Кб</fileSize>
+            <docDescription>Проект контракта</docDescription>
+            <url>https://zakupki.gov.ru/44fz/filestore/public/1.0/download/priz/file.html?uid=BF677BB284A19DDCE0530F548D0A16AC</url>
+        </attachment>
+    </notificationAttachments>
+    <attachments>
+        <attachment>
+            <publishedContentId>BF676E37C8609E26E0530F548D0AAACC</publishedContentId>
+            <fileName>Документация о закупке.doc</fileName>
+            <fileSize>388.5 Кб</fileSize>
+            <docDescription>Документация о закупке</docDescription>
+            <url>https://zakupki.gov.ru/44fz/filestore/public/1.0/download/priz/file.html?uid=BF676E37C8609E26E0530F548D0AAACC</url>
+        </attachment>
+    </attachments>
+    <documentation>
+        <purchaseObjectsCh9St37>false</purchaseObjectsCh9St37>
+        <modifiable>true</modifiable>
+        <clarificationInfo>
+            <startDate>2021-04-08T09:00:00+05:00</startDate>
+            <filledManuallyStartDate>true</filledManuallyStartDate>
+            <endDate>2021-04-13T10:00:00+05:00</endDate>
+            <deliveryProcedure>В течение двух дней с даты поступления от оператора электронной площадки запроса о даче разъяснений положений документации об электронном аукционе, разъяснения положений документации об электронном аукционе размещаются в ЕИС с указанием предмета запроса, но без указания участника закупки, от которого поступил указанный запрос, при условии, что указанный запрос поступил не позднее чем за три дня до даты окончания срока подачи заявок на участие в электронном аукционе</deliveryProcedure>
+        </clarificationInfo>
+        <onesideRejectionCh9St95>true</onesideRejectionCh9St95>
+        <printFormInfo>
+            <ns2:url>https://zakupki.gov.ru/epz/order/notice/printForm/view.html?printFormId=26165257&amp;source=prizPF</ns2:url>
+        </printFormInfo>
+    </documentation>
+</ns4:fcsNotificationEF>

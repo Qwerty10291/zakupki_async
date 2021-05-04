@@ -1,0 +1,298 @@
+{
+    "purchase": {
+        "id": 10491283,
+        "customerId": 315492,
+        "contracts": []
+    },
+    "purchaseMethod": {
+        "id": 379679,
+        "changeable": true,
+        "competitive": true,
+        "digitalPurchase": true,
+        "extended": false,
+        "hasPhases": false,
+        "methodType": "IS",
+        "name": "Аукцион в электронной форме",
+        "hasPurchases": "P",
+        "status": "RELEVANT",
+        "typal": true,
+        "typalKind": "TSA"
+    },
+    "timeZones": [
+        {
+            "id": 12,
+            "offset": -1,
+            "ahead": false,
+            "name": "МСК-1 (СГВ+2) Калининград",
+            "shortName": "МСК-1",
+            "actual": true
+        },
+        {
+            "id": 13,
+            "offset": 0,
+            "ahead": false,
+            "name": "МСК (СГВ+3) Москва, Волгоград",
+            "shortName": "МСК",
+            "actual": true
+        },
+        {
+            "id": 14,
+            "offset": 1,
+            "ahead": true,
+            "name": "МСК+1 (СГВ+4) Самара",
+            "shortName": "МСК+1",
+            "actual": true
+        },
+        {
+            "id": 15,
+            "offset": 2,
+            "ahead": true,
+            "name": "МСК+2 (СГВ+5) Екатеринбург, Челябинск, Уфа",
+            "shortName": "МСК+2",
+            "actual": true
+        },
+        {
+            "id": 16,
+            "offset": 3,
+            "ahead": true,
+            "name": "МСК+3 (СГВ+6) Новосибирск, Омск",
+            "shortName": "МСК+3",
+            "actual": true
+        },
+        {
+            "id": 17,
+            "offset": 4,
+            "ahead": true,
+            "name": "МСК+4 (СГВ+7) Красноярск",
+            "shortName": "МСК+4",
+            "actual": true
+        },
+        {
+            "id": 18,
+            "offset": 5,
+            "ahead": true,
+            "name": "МСК+5 (СГВ+8) Иркутск",
+            "shortName": "МСК+5",
+            "actual": true
+        },
+        {
+            "id": 19,
+            "offset": 6,
+            "ahead": true,
+            "name": "МСК+6 (СГВ+9) Якутск",
+            "shortName": "МСК+6",
+            "actual": true
+        },
+        {
+            "id": 20,
+            "offset": 7,
+            "ahead": true,
+            "name": "МСК+7 (СГВ+10) Владивосток, Хабаровск",
+            "shortName": "МСК+7",
+            "actual": true
+        },
+        {
+            "id": 21,
+            "offset": 8,
+            "ahead": true,
+            "name": "МСК+8 (СГВ+11) Среднеколымск",
+            "shortName": "МСК+8",
+            "actual": true
+        },
+        {
+            "id": 22,
+            "offset": 9,
+            "ahead": true,
+            "name": "МСК+9 (СГВ+12) Петропавловск-Камчатский",
+            "shortName": "МСК+9",
+            "actual": true
+        }
+    ],
+    "noticeInfo": {
+        "id": 12516919,
+        "purchaseName": "Поставка дизельного топлива",
+        "contractorAgencyType": 0,
+        "firstName": "А.",
+        "lastName": "Мамаев",
+        "patronymic": "В.",
+        "email": "223lex@mail.ru",
+        "phone": "+7 (923) 4950990",
+        "fax": null,
+        "additionalContactInfo": null,
+        "applSubmissionCloseTime": 1619427600000,
+        "considerationSecondPartDate": null,
+        "applExaminationTime": null,
+        "timezoneId": 17,
+        "customerName": "АКЦИОНЕРНОЕ ОБЩЕСТВО \"КЕМЕРОВСКАЯ ТРАНСПОРТНАЯ КОМПАНИЯ\"",
+        "customerInn": "4205355989",
+        "customerKpp": "420501001",
+        "customerOgrn": "1174205014224",
+        "customerFullAddress": "650056, ОБЛ КЕМЕРОВСКАЯ,Г КЕМЕРОВО,УЛ ВОЛГОГРАДСКАЯ, дом ДОМ 51",
+        "customerPostalAddress": "650056, ОБЛ КЕМЕРОВСКАЯ, Г КЕМЕРОВО, УЛ ВОЛГОГРАДСКАЯ, ДОМ 51 ",
+        "applSubmisionPlace": "Электронная площадка РТС-тендер (http://www.rts-tender.ru)",
+        "applSubmisionStartDate": 1617915600000,
+        "summingupTime": 1619701200000,
+        "urlVsrz": "https://223.rts-tender.ru/supplier/auction/Trade/View.aspx?Id=2033154",
+        "auctionTime": null,
+        "additionalPricesMatchingDate": null,
+        "envelopeOpeningTime": null,
+        "quotationExaminationTime": null,
+        "lots": [
+            {
+                "id": 13898915,
+                "ordinalNumber": 1,
+                "contractSubject": "Поставка дизельного топлива",
+                "startingContractPrice": 21200000,
+                "priceInformation": null,
+                "impossibleToDeterminePrice": false,
+                "currency": {
+                    "id": 1,
+                    "name": "Российский рубль",
+                    "code": "RUB",
+                    "lastModifyDate": 1365422030000,
+                    "digitalCode": "643",
+                    "shortName": "Россия",
+                    "startActiveDate": 1303489510000,
+                    "endtActiveDate": 1303489510000,
+                    "dateutv": null,
+                    "actual": true
+                },
+                "exchangeRate": null,
+                "exchangeRateDate": null,
+                "startingContractPriceRub": 21200000,
+                "commoditiesWorkServiceses": [
+                    {
+                        "id": 33121425,
+                        "okei": {
+                            "id": 202063,
+                            "name": "Тонна;^метрическая тонна (1000 кг)",
+                            "charCode": "Т",
+                            "internationCharCode": "TNE",
+                            "localName": "т",
+                            "internationName": "t",
+                            "actual": true,
+                            "digitalCode": "168"
+                        },
+                        "amountOfCommodities": 420,
+                        "impossibleToDetermineAttr": false,
+                        "orderNumber": 1,
+                        "deliveryPlace": null,
+                        "okpd2": {
+                            "id": 8884189,
+                            "code": "19.20.21.300",
+                            "name": "Топливо дизельное"
+                        },
+                        "okved2": {
+                            "id": 8829698,
+                            "section": "C",
+                            "code": "19.20",
+                            "name": "Производство нефтепродуктов"
+                        },
+                        "additionalInfo": null
+                    }
+                ],
+                "planPositionId": 76651051029,
+                "planInfoId": 4927130,
+                "planId": 670330,
+                "planType": "COMMODITY",
+                "reestrNumber": "2200489574",
+                "commodityPrice": null,
+                "commodityPriceRub": null,
+                "jointLot": false,
+                "centralized": false,
+                "deliveryPlace": {
+                    "regionId": 5277390,
+                    "address": "Область Кемеровская, город Кемерово, улица Волгоградская, дом 51"
+                },
+                "deliveryPlaceIndication": "GL",
+                "inputTypeNMSK": "NMSK",
+                "lotCustomers": [],
+                "lotApplications": [
+                    {
+                        "id": 16368195,
+                        "assessmentInformation": null,
+                        "applications": [
+                            {
+                                "id": 28360703,
+                                "applicationDate": 1619191088000,
+                                "applicationNumber": "1",
+                                "customerName": null,
+                                "inn": null,
+                                "kpp": null,
+                                "ogrn": null,
+                                "physical": false,
+                                "price": null,
+                                "currency": {
+                                    "id": 1,
+                                    "name": "Российский рубль",
+                                    "code": "RUB",
+                                    "lastModifyDate": 1365422030000,
+                                    "digitalCode": "643",
+                                    "shortName": "Россия",
+                                    "startActiveDate": 1303489510000,
+                                    "endtActiveDate": 1303489510000,
+                                    "dateutv": null,
+                                    "actual": true
+                                },
+                                "conditionProposals": null,
+                                "allowance": "ALLOWED",
+                                "allowanceQualyfingCompetition": null,
+                                "rejectionReason": null,
+                                "rejectionReasonQualyfingCompetition": null,
+                                "place": null,
+                                "lastPrice": null,
+                                "lastButOnePrice": null,
+                                "additionalPrice": null,
+                                "rating": 1,
+                                "assessmentResult": null,
+                                "contractExecutionTerm": null,
+                                "commodityAmount": null,
+                                "applicationDateOnly": null,
+                                "applicationHours": null,
+                                "applicationMinutes": null,
+                                "identificationNumber": null,
+                                "additionalIdentificationNumber": null,
+                                "countryId": null,
+                                "country": null,
+                                "address": null,
+                                "impossibleToDeterminePrice": true,
+                                "priceInfo": "Участником в торгах не подано ни одного ценового предложения",
+                                "notRFResident": false,
+                                "notRFResidentInfo": null,
+                                "explanationRequestResult": null,
+                                "customerExplanationRequestReason": null,
+                                "rejectionReasonCode": null,
+                                "rejectionReasonCodeQualyfingCompetition": null,
+                                "commissionDecisionPlace": null,
+                                "contactSigned": true,
+                                "functionalCharacteristicsFinalOffer": null,
+                                "appCommodityDeliveryPlace": null,
+                                "calculatedPlace": null,
+                                "calculatedRating": null,
+                                "protocolFields": [],
+                                "protocolFieldsForPlace": [],
+                                "protocolFieldsForAllowance": [],
+                                "requirements": [],
+                                "customerExplanationRequests": [],
+                                "appLotCriterias": [],
+                                "provider": false,
+                                "notDishonest": true
+                            }
+                        ],
+                        "documentRequirements": [],
+                        "currency": null,
+                        "additionalPriceCurrency": null,
+                        "nonPrice": false,
+                        "offerInfo": null,
+                        "allocated": false,
+                        "assessmentOrder": null,
+                        "lotApplicationsCriteria": []
+                    }
+                ],
+                "lotToLotCancellations": [],
+                "lotToProtocolAllocations": [],
+                "lotCriterias": []
+            }
+        ]
+    }
+}

@@ -11,7 +11,7 @@ import re
 
 from sqlalchemy.sql.functions import user
 from data.db_session import create_session, global_init
-from data.models import History, Data, Objects, Winners
+from data.models import History, Data, Objects, TenderLinks, Winners
 from datetime import datetime
 
 
@@ -256,7 +256,6 @@ class AsyncParser:
         term_document_data = await self._get_request(session, term_document_link)
         term_document_links = document_fromstring(term_document_data).xpath(
             '//span[@class="section__value"]/a[@title]/@href')
-
         order.tender_object = tender_object
         order.customer = customer
         order.tender_price = self._tender_price_handler(tender_price)
@@ -264,8 +263,13 @@ class AsyncParser:
         order.tender_adress = tender_adress
         order.tender_delivery = tender_delivery_adress
         order.tender_term = tender_term
-        order.tender_object_info = tender_object_info
-        order.document_links = term_document_links
+        for object_info in self._handle_tender_objects(tender_object_info):
+            order.objects.append(object_info)
+        for document_link_data in term_document_links:
+            tender_link = TenderLinks()
+            tender_link.link = document_link_data
+            tender_link.data_id = order.id
+            order.document_links.append(tender_link)
         order.winner.append(
             Winners(name=winner[0], position=winner[1], price=winner[2]))
         order.type = 'fz44'
@@ -372,6 +376,7 @@ class AsyncParser:
                 data.price = i[5]
                 tender_objects.append(data)
         return tender_objects
+    
 
 
 class AsyncParserController:
