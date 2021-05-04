@@ -141,10 +141,10 @@ def generate_csv(history_id) -> str:
         tender_objects = '"' + '\n'.join(map(lambda x: '\t'.join(x), 
                     [[to.position, to.name, to.unit, to.quantity, to.unit_price, to.price] for to in tender.objects])) + '"'
         winner = tender.winner[0]
-        data_raw = [tender.id, tender.type, tender.tender_object, tender.customer, str(tender.tender_price), 
+        document_links = '\n'.join([link.link for link in tender.document_links])
+        data_raw = [str(tender.id), tender.type, tender.tender_object, tender.customer, str(tender.tender_price), 
                          tender.tender_adress, str(tender.tender_delivery) + ' ' + str(tender.tender_terms), tender_objects,
-                         winner.name, winner.position, winner.price, tender.document_links, tender.tender_link
-                         ]
+                         winner.name, winner.position, winner.price, document_links, tender.tender_link]
         data_prep = map(lambda x: str(x) if x else '', data_raw)
         data.append(';'.join(data_prep))
     return io.BytesIO(bytes('\n'.join(data), encoding='utf-8'))

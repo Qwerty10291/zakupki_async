@@ -86,8 +86,8 @@ class Data(SqlAlchemyBase):
     tender_adress = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     tender_delivery = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     tender_terms = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    document_links = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
     tender_link = sqlalchemy.Column(sqlalchemy.String)
+    document_links = orm.relation('TenderLinks', back_populates='data')
     winner = orm.relation('Winners', back_populates='data')
     objects = orm.relation('Objects', back_populates='data')
 
@@ -116,3 +116,10 @@ class Winners(SqlAlchemyBase):
     price = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     data = orm.relation('Data')
 
+
+class TenderLinks(SqlAlchemyBase):
+    __tablename__ = 'links'
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    data_id = sqlalchemy.Column(sqlalchemy.BigInteger, sqlalchemy.ForeignKey('data.id'))
+    link = sqlalchemy.Column(sqlalchemy.String)
+    data = orm.relation('Data')
