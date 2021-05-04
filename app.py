@@ -1,5 +1,6 @@
 from flask import Flask, url_for, render_template, request, session, abort, redirect
 from flask_login import login_required, login_user, logout_user, current_user
+from flask_restful import Api
 import request_blueprint
 import admin_blueprint
 from data import db_session
@@ -16,6 +17,7 @@ app.register_blueprint(request_blueprint.blueprint)
 app.register_blueprint(admin_blueprint.blueprint)
 app.config["SECRET_KEY"] = "qazwsxedcrfv"
 
+api = Api(app)
 
 @app.route('/')
 @login_required

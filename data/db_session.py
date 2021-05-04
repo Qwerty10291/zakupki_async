@@ -17,7 +17,7 @@ def global_init(db_file):
     if not db_file or not db_file.strip():
         raise Exception("Необходимо указать файл базы данных.")
 
-    conn_str = f'postgresql+psycopg2://zakupki:qwerty1029@127.0.0.1/zakupki'
+    conn_str = f'postgresql+psycopg2://zakupki:qwerty1029@185.46.8.52/zakupki'
     print(f"Подключение к базе данных по адресу {conn_str}")
 
     engine = sa.create_engine(conn_str, echo=False)

@@ -91,37 +91,42 @@ class AsyncParser:
                 except Exception as msg:
                     print(msg)
         else:
-            async with aiohttp.ClientSession(headers=self.headers) as session:
-                print('init')
-                pages_count = await self.get_pages_count(session)
-                pages_tasks = [self.parse_page(session, i)
-                               for i in range(1, int(pages_count / 10) + 2)]
-                tenders_links = await asyncio.gather(*pages_tasks)
-                self.history.tenders_count = sum(map(len, tenders_links))
-                print('ссылки загружены', self.history.tenders_count)
-                self._change_history_state('downloading')
+            try:
+                async with aiohttp.ClientSession(headers=self.headers) as session:
+                    print('init')
+                    pages_count = await self.get_pages_count(session)
+                    pages_tasks = [self.parse_page(session, i)
+                                for i in range(1, int(pages_count / 10) + 2)]
+                    tenders_links = await asyncio.gather(*pages_tasks)
+                    self.history.tenders_count = sum(map(len, tenders_links))
+                    print('ссылки загружены', self.history.tenders_count)
+                    self._change_history_state('downloading')
 
-                for i in range(self.workers, len(tenders_links), self.workers):
-                    print(f'page: {i - self.workers + 1}-{i + 1}')
-                    tasks = [self.parse_tender_page(
-                        session, page) for page in tenders_links[i - self.workers:i]]
-                    tenders = await asyncio.gather(*tasks, return_exceptions=False)
-                    for tender_page in tenders:
-                        for tender in tender_page:
-                            self.history.tenders.append(tender)
-                    self.db_session.commit()
+                    for i in range(self.workers, len(tenders_links), self.workers):
+                        print(f'page: {i - self.workers + 1}-{i + 1}')
+                        tasks = [self.parse_tender_page(
+                            session, page) for page in tenders_links[i - self.workers:i]]
+                        tenders = await asyncio.gather(*tasks, return_exceptions=False)
+                        for tender_page in tenders:
+                            for tender in tender_page:
+                                if not self.db_session.query(Data).filter(Data.id == tender.id).count():
+                                    self.history.tenders.append(tender)
+                                    self.db_session.commit()
 
-                if len(tenders_links) % self.workers != 0:
-                    tasks = [self.parse_tender_page(session, page) for page in tenders_links[len(
-                        tenders_links) - len(tenders_links) % self.workers:]]
-                    tenders = await asyncio.gather(*tasks, return_exceptions=False)
-                    for tender_page in tenders:
-                        for tender in tender_page:
-                            self.history.tenders.append(tender)
-                    self.db_session.commit()
+                    if len(tenders_links) % self.workers != 0:
+                        tasks = [self.parse_tender_page(session, page) for page in tenders_links[len(
+                            tenders_links) - len(tenders_links) % self.workers:]]
+                        tenders = await asyncio.gather(*tasks, return_exceptions=False)
+                        for tender_page in tenders:
+                            for tender in tender_page:
+                                self.history.tenders.append(tender)
+                        self.db_session.commit()
 
-                self._change_history_state('done')
-                self.on_done(self.history.id)
+                    self._change_history_state('done')
+                    self.db_session.close()
+                    self.on_done(self.history.id)
+            except Exception as msg:
+                print(msg)
 
     async def get_pages_count(self, session: aiohttp.ClientSession) -> int:
         """ возвращает количество страниц с записями о тендерах """

@@ -1,8 +1,10 @@
 import datetime
+from typing import List
 import sqlalchemy
 from .db_session import SqlAlchemyBase
 from sqlalchemy import orm
 from flask_login import UserMixin
+from sqlalchemy_serializer import SerializerMixin
 
 history_association = sqlalchemy.Table('historyassociations', SqlAlchemyBase.metadata, 
                     sqlalchemy.Column('history_id', sqlalchemy.Integer, sqlalchemy.ForeignKey('history.id')),
@@ -10,7 +12,7 @@ history_association = sqlalchemy.Table('historyassociations', SqlAlchemyBase.met
 
 
 
-class User(SqlAlchemyBase, UserMixin):
+class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'user'
 
     id = sqlalchemy.Column(
@@ -39,7 +41,7 @@ class Auth(SqlAlchemyBase):
     user = orm.relation('User')
 
 
-class History(SqlAlchemyBase):
+class History(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'history'
 
     id = sqlalchemy.Column(
@@ -62,7 +64,7 @@ class History(SqlAlchemyBase):
     user = orm.relation('User')
 
 
-class Applications(SqlAlchemyBase):
+class Applications(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'applications'
     id = sqlalchemy.Column(
         sqlalchemy.Integer, primary_key=True, autoincrement=True)
@@ -74,7 +76,7 @@ class Applications(SqlAlchemyBase):
     user = orm.relation('User')
 
 
-class Data(SqlAlchemyBase):
+class Data(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'data'
 
     id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
@@ -92,7 +94,7 @@ class Data(SqlAlchemyBase):
     objects = orm.relation('Objects', back_populates='data')
 
 
-class Objects(SqlAlchemyBase):
+class Objects(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'object'
     id = sqlalchemy.Column(
         sqlalchemy.Integer, primary_key=True, autoincrement=True)
@@ -107,7 +109,7 @@ class Objects(SqlAlchemyBase):
     data = orm.relation('Data')
 
 
-class Winners(SqlAlchemyBase):
+class Winners(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'winner'
     data_id = sqlalchemy.Column(
         sqlalchemy.BigInteger, sqlalchemy.ForeignKey('data.id'), primary_key=True)
@@ -117,7 +119,7 @@ class Winners(SqlAlchemyBase):
     data = orm.relation('Data')
 
 
-class TenderLinks(SqlAlchemyBase):
+class TenderLinks(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'links'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     data_id = sqlalchemy.Column(sqlalchemy.BigInteger, sqlalchemy.ForeignKey('data.id'))

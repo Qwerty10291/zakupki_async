@@ -80,7 +80,6 @@ def register_user(login, password, mail, name) -> User:
     session.flush()
 
     application = Applications()
-    print(user.id)
     application.user_id = user.id
     application.login = login
     session.add(application)
