@@ -1,0 +1,217 @@
+{
+    "purchase": {
+        "id": 10472486,
+        "customrerId": 60401,
+        "contracts": []
+    },
+    "purchaseMethod": {
+        "id": 111481,
+        "changeable": true,
+        "competitive": false,
+        "digitalPuchase": true,
+        "extended": false,
+        "hasPhases": false,
+        "methodType": "IS",
+        "name": "Открытый аукцион в электронной форме (ЕЭТП)",
+        "hasPurchases": "P",
+        "status": "RELEVANT",
+        "typal": false,
+        "typalKind": null
+    },
+    "timeZones": [
+        {
+            "id": 12,
+            "offset": -1,
+            "ahead": false,
+            "name": "МСК-1 (СГВ+2) Калининград",
+            "shortName": "МСК-1",
+            "actual": true
+        },
+        {
+            "id": 13,
+            "offset": 0,
+            "ahead": false,
+            "name": "МСК (СГВ+3) Москва, Волгоград",
+            "shortName": "МСК",
+            "actual": true
+        },
+        {
+            "id": 14,
+            "offset": 1,
+            "ahead": true,
+            "name": "МСК+1 (СГВ+4) Самара",
+            "shortName": "МСК+1",
+            "actual": true
+        },
+        {
+            "id": 15,
+            "offset": 2,
+            "ahead": true,
+            "name": "МСК+2 (СГВ+5) Екатеринбург, Челябинск, Уфа",
+            "shortName": "МСК+2",
+            "actual": true
+        },
+        {
+            "id": 16,
+            "offset": 3,
+            "ahead": true,
+            "name": "МСК+3 (СГВ+6) Новосибирск, Омск",
+            "shortName": "МСК+3",
+            "actual": true
+        },
+        {
+            "id": 17,
+            "offset": 4,
+            "ahead": true,
+            "name": "МСК+4 (СГВ+7) Красноярск",
+            "shortName": "МСК+4",
+            "actual": true
+        },
+        {
+            "id": 18,
+            "offset": 5,
+            "ahead": true,
+            "name": "МСК+5 (СГВ+8) Иркутск",
+            "shortName": "МСК+5",
+            "actual": true
+        },
+        {
+            "id": 19,
+            "offset": 6,
+            "ahead": true,
+            "name": "МСК+6 (СГВ+9) Якутск",
+            "shortName": "МСК+6",
+            "actual": true
+        },
+        {
+            "id": 20,
+            "offset": 7,
+            "ahead": true,
+            "name": "МСК+7 (СГВ+10) Владивосток, Хабаровск",
+            "shortName": "МСК+7",
+            "actual": true
+        },
+        {
+            "id": 21,
+            "offset": 8,
+            "ahead": true,
+            "name": "МСК+8 (СГВ+11) Среднеколымск",
+            "shortName": "МСК+8",
+            "actual": true
+        },
+        {
+            "id": 22,
+            "offset": 9,
+            "ahead": true,
+            "name": "МСК+9 (СГВ+12) Петропавловск-Камчатский",
+            "shortName": "МСК+9",
+            "actual": true
+        }
+    ],
+    "noticeInfo": {
+        "id": 12493816,
+        "purchaseName": "Капитальный ремонт ограждения спортивной площадки",
+        "contractorAgencyType": 0,
+        "firstName": "Л.",
+        "lastName": "Числова",
+        "patronymic": "Б.",
+        "email": "school43pk@mail.ru",
+        "phone": "74152269958",
+        "fax": null,
+        "additionalContactInfo": null,
+        "applSubmissionCloseTime": 1619379000000,
+        "considerationSecondPartDate": null,
+        "applExaminationTime": null,
+        "timezoneId": 22,
+        "customerName": "МУНИЦИПАЛЬНОЕ АВТОНОМНОЕ ОБЩЕОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ \"СРЕДНЯЯ ШКОЛА № 43\" ПЕТРОПАВЛОВСК-КАМЧАТСКОГО ГОРОДСКОГО ОКРУГА",
+        "customerInn": "4100014572",
+        "customerKpp": "410101001",
+        "customerOgrn": "1024101015168",
+        "customerFullAddress": "683024, Камчатский край, г Петропавловск-Камчатский, ул Ватутина, дом 1",
+        "customerPostalAddress": "683024, Петропавловск-камчатский, ул. Ватутина 1",
+        "applSubmisionPlace": null,
+        "applSubmisionStartDate": 1617656400000,
+        "summingupTime": 1619676000000,
+        "urlVsrz": "https://com.roseltorg.ru/#com/procedure/view/procedure/695297",
+        "auctionTime": null,
+        "additionalPricesMatchingDate": null,
+        "envelopeOpeningTime": null,
+        "quotationExaminationTime": null,
+        "lots": [
+            {
+                "id": 13874519,
+                "ordinalNumber": 1,
+                "contractSubject": "Капитальный ремонт ограждения спортивной площадки",
+                "startingContractPrice": 3370476.02,
+                "priceInformation": null,
+                "impossibleToDeterminePrice": false,
+                "currency": {
+                    "id": 1,
+                    "name": "Российский рубль",
+                    "code": "RUB",
+                    "lastModifyDate": 1365422030000,
+                    "digitalCode": "643",
+                    "shortName": "Россия",
+                    "startActiveDate": 1303489510000,
+                    "endtActiveDate": 1303489510000,
+                    "dateutv": null,
+                    "actual": true
+                },
+                "exchangeRate": null,
+                "exchangeRateDate": null,
+                "startingContractPriceRub": 3370476.02,
+                "commoditiesWorkServiceses": [
+                    {
+                        "id": 33029980,
+                        "okei": {
+                            "id": 202393,
+                            "name": "Условная единица",
+                            "charCode": "УСЛ ЕД",
+                            "internationCharCode": null,
+                            "localName": "усл. ед",
+                            "internationName": null,
+                            "actual": true,
+                            "digitalCode": "876"
+                        },
+                        "amountOfCommodities": 1,
+                        "impossibleToDetermineAttr": false,
+                        "orderNumber": 1,
+                        "deliveryPlace": null,
+                        "okpd2": {
+                            "id": 8878444,
+                            "code": "42.99.22",
+                            "name": "Работы строительные по строительству открытых стадионов и спортивных площадок"
+                        },
+                        "okved2": {
+                            "id": 8830436,
+                            "section": "F",
+                            "code": "42.99",
+                            "name": "Строительство прочих инженерных сооружений, не включенных в другие группировки"
+                        },
+                        "additionalInfo": "Капитальный ремонт ограждения спортивной площадки"
+                    }
+                ],
+                "planPositionId": 76648531640,
+                "planInfoId": 4915663,
+                "planId": 650495,
+                "planType": "COMMODITY",
+                "reestrNumber": "2200468665",
+                "commodityPrice": null,
+                "commodityPriceRub": null,
+                "jointLot": false,
+                "centralized": false,
+                "deliveryPlace": {
+                    "regionId": null,
+                    "address": "683024, Камчатский край, г. Петропавловск-Камчатский, ул. Ватутина д.1"
+                },
+                "deliveryPlaceIndication": "GL",
+                "inputTypeNMSK": "NMSK",
+                "lotCustomers": [],
+                "lotApplications": [],
+                "lotToLotCancellations": [],
+                "lotToProtocolAllocations": [],
+                "lotCriterias": []
+            }
+        ]
+    }
+}

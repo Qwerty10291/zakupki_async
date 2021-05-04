@@ -1,0 +1,2 @@
+https://zakupki.gov.ru/api/mobile/proxy/223/purchase/public/purchase/info/common-info.html?regNumber=32109998392
+https://zakupki.gov.ru/epz/order/notice/printForm/viewXml.html?regNumber=0320100007621000014
