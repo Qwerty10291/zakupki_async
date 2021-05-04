@@ -61,7 +61,7 @@ class AsyncParser:
                 try:
                     pages_count = await self.get_pages_count(session)
                     pages_tasks = [self.parse_page(session, i)
-                                for i in range(1, pages_count + 1)]
+                                   for i in range(1, pages_count + 1)]
                     tenders_links = await asyncio.gather(*pages_tasks)
                     self.history.tenders_count = sum(map(len, tenders_links))
                     print('ссылки загружены', self.history.tenders_count)
@@ -95,7 +95,7 @@ class AsyncParser:
                 print('init')
                 pages_count = await self.get_pages_count(session)
                 pages_tasks = [self.parse_page(session, i)
-                            for i in range(1, int(pages_count / 10) + 2)]
+                               for i in range(1, int(pages_count / 10) + 2)]
                 tenders_links = await asyncio.gather(*pages_tasks)
                 self.history.tenders_count = sum(map(len, tenders_links))
                 print('ссылки загружены', self.history.tenders_count)
@@ -335,9 +335,9 @@ class AsyncParser:
             print(f'tryd: {retries}')
             if retries > 10:
                 raise ClientConnectionError(
-                                'Слишком много неудачных попыток')
+                    'Слишком много неудачных попыток')
             return await self._get_request(session, url, params, retries=retries + 1)
-    
+
     async def create_proxy_connection(self, data: str):
         host, port, login, password = data.split(';')
         return ProxyConnector(proxy_type=ProxyType.HTTPS, host=host, port=int(port), username=login, password=password)
@@ -427,8 +427,6 @@ class AsyncParserController:
             parser.is_proxy = False
             parser.start()
 
-
-
     def move_queue(self):
         print('move')
         if len(self.queue) > 0:
@@ -453,7 +451,6 @@ class AsyncParserController:
             self.proxy_count = len(data)
             self.proxies = dict((proxy, 0) for proxy in data)
             self.proxies['self'] = -1
-    
 
     def _create_history(self, user_id: int, state: str, parameters: dict):
         history = History()
