@@ -1,11 +1,3 @@
-from data.models import *
-from data.db_session import *
+import requests
 
-global_init('1')
-session = create_session()
-
-data = session.query(History).all()
-for user in data:
-    if len(user.tenders) > 0:
-        for i in user.tenders:
-            print(i.objects)
+print([requests.delete(f'http://127.0.0.1:8000/api/queries/{i}', params={'key': 'w1gLpauemARZOxfhziblmwOPzEMrinCF'}).json() for i in range(10, 16)])

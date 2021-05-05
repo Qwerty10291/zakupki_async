@@ -58,38 +58,36 @@ class AsyncParser:
             proxy = await self.create_proxy_connection(self.proxy_data)
             async with aiohttp.ClientSession(headers=self.headers, connector=proxy) as session:
                 print('init')
-                try:
-                    pages_count = await self.get_pages_count(session)
-                    pages_tasks = [self.parse_page(session, i)
-                                   for i in range(1, pages_count + 1)]
-                    tenders_links = await asyncio.gather(*pages_tasks)
-                    self.history.tenders_count = sum(map(len, tenders_links))
-                    print('ссылки загружены', self.history.tenders_count)
-                    self._change_history_state('downloading')
+                pages_count = await self.get_pages_count(session)
+                pages_tasks = [self.parse_page(session, i)
+                                for i in range(1, pages_count + 1)]
+                tenders_links = await asyncio.gather(*pages_tasks)
+                self.history.tenders_count = sum(map(len, tenders_links))
+                print('ссылки загружены', self.history.tenders_count)
+                self._change_history_state('downloading')
 
-                    for i in range(self.workers, len(tenders_links), self.workers):
-                        print(f'page: {i - self.workers + 1}-{i + 1}')
-                        tasks = [self.parse_tender_page(
-                            session, page) for page in tenders_links[i - self.workers:i]]
-                        tenders = await asyncio.gather(*tasks, return_exceptions=False)
-                        for tender_page in tenders:
-                            for tender in tender_page:
+                for i in range(self.workers, len(tenders_links), self.workers):
+                    print(f'page: {i - self.workers + 1}-{i + 1}')
+                    tasks = [self.parse_tender_page(
+                        session, page) for page in tenders_links[i - self.workers:i]]
+                    tenders = await asyncio.gather(*tasks, return_exceptions=False)
+                    for tender_page in tenders:
+                        for tender in tender_page:
+                            self.history.tenders.append(tender)
+                    self.db_session.commit()
+
+                if len(tenders_links) % self.workers != 0:
+                    tasks = [self.parse_tender_page(session, page) for page in tenders_links[len(
+                        tenders_links) - len(tenders_links) % self.workers:]]
+                    tenders = await asyncio.gather(*tasks, return_exceptions=False)
+                    for tender_page in tenders:
+                        for tender in tender_page:
+                            if not self.db_session.query(Data).filter(Data.id == tender.id).count():
                                 self.history.tenders.append(tender)
                         self.db_session.commit()
 
-                    if len(tenders_links) % self.workers != 0:
-                        tasks = [self.parse_tender_page(session, page) for page in tenders_links[len(
-                            tenders_links) - len(tenders_links) % self.workers:]]
-                        tenders = await asyncio.gather(*tasks, return_exceptions=False)
-                        for tender_page in tenders:
-                            for tender in tender_page:
-                                self.history.tenders.append(tender)
-                        self.db_session.commit()
-
-                    self._change_history_state('done')
-                    self.on_done(self.history.id)
-                except Exception as msg:
-                    print(msg)
+                self._change_history_state('done')
+                self.on_done(self.history.id)
         else:
             try:
                 async with aiohttp.ClientSession(headers=self.headers) as session:
@@ -111,7 +109,7 @@ class AsyncParser:
                             for tender in tender_page:
                                 if not self.db_session.query(Data).filter(Data.id == tender.id).count():
                                     self.history.tenders.append(tender)
-                                    self.db_session.commit()
+                            self.db_session.commit()
 
                     if len(tenders_links) % self.workers != 0:
                         tasks = [self.parse_tender_page(session, page) for page in tenders_links[len(
@@ -328,7 +326,7 @@ class AsyncParser:
                 if query.status != 200:
                     print(f'try: {retries}')
                     if query.status == 503:
-                        if retries > 10:
+                        if retries > 100:
                             raise ClientConnectionError(
                                 'Слишком много неудачных попыток')
                         await asyncio.sleep(retries + 1)
@@ -342,7 +340,7 @@ class AsyncParser:
         except aiohttp.ServerDisconnectedError:
             await asyncio.sleep(1)
             print(f'tryd: {retries}')
-            if retries > 10:
+            if retries > 100:
                 raise ClientConnectionError(
                     'Слишком много неудачных попыток')
             return await self._get_request(session, url, params, retries=retries + 1)
@@ -443,6 +441,7 @@ class AsyncParserController:
             parser = self.queue.pop(0)
             self.start_parser(parser)
             self.parsers.append(parser)
+        print(self.parsers)
 
     def remove_parser(self, history_id: int):
         print('removed', history_id)

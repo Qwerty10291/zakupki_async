@@ -23,6 +23,7 @@
             <ul class="navbar-nav mr-auto mb-2">
                 <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link text-white h5">Создать запрос</a></li>
                 <li class="nav-item"><a href="/history" class="nav-link text-white h5">История запросов</a></li>
+                <li class="nav-item"><a href="/api" class="nav-link text-white h5">API</a></li>
                 {% if current_user.role == 'admin' %}
                 <li class="nav-item"><a href="/admin" class="nav-link text-white h5">Админ панель</a></li>
                 {% endif %}

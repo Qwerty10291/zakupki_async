@@ -1,0 +1,20 @@
+{% extends "form.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="url_for('static', filename='css/api.css')">
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center text-info">Описание API</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md"></div>
+        <div class="col-md-8">
+            <div class="api_key__container">
+                <span class="fs-3">Ключ API: <span class="text-danger">{{ current_user.key }}</span></span>
+            </div>
+        </div>
+        <div class="col-md"></div>
+    </div>
+</div>
+{% endblock %}
